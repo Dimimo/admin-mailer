@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateMailerCustomersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('mailer_customers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->unsignedInteger('mailer_list_id')->nullable()->index();
+            $table->string('real_name')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
+            $table->string('uuid', 32);
+            $table->unsignedInteger('site_id')->nullable();
+            $table->unsignedInteger('service_id')->nullable();
+            $table->boolean('accepts_mail')->default(true);
+            $table->unsignedInteger('city_id')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['user_id', 'site_id', 'service_id', 'city_id'], 'mailer_customers_user_info_index');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('mailer_customers');
+    }
+}
