@@ -1,0 +1,46 @@
+{
+    "name": "dimimo/admin-mailer",
+    "description": "Mass mailer for the administration",
+    "license": "GNU Lesser General Public License v3.0",
+    "authors": [
+        {
+            "name": "Dimitri Mostrey",
+            "email": "dimitri@puertoparrot.com",
+            "homepage": "https://www.puertoparrot.com"
+        }
+    ],
+    "type": "library",
+    "homepage": "https://github.com/Dimimo/admin-mailer",
+    "keywords": [
+        "Laravel",
+        "admin-mailer"
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Dimimo\\admin-mailer\\": "src/"
+        },
+        "files": [
+            "src/Helpers/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dimimo\\admin-mailer\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dimimo\\admin-mailer\\AdminMailerServiceProvider"
+            ],
+            "aliases": {
+                "admin-mailer": "Dimimo\\admin-mailer\\Facades\\AdminMailerFacade"
+            }
+        }
+    }
+}
