@@ -13,10 +13,9 @@ class AdminMailerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'dimimo');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'dimimo');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'admin-mailer');
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
@@ -42,9 +41,6 @@ class AdminMailerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/admin-mailer'),
         ], 'admin-mailer.public');
-        $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'admin-mailer');
     }
 
     /**
