@@ -8,8 +8,7 @@ namespace Dimimo\AdminMailer;
  */
 class AdminMailer
 {
-    public function __construct()
-    {
-        //
-    }
+    use AuthorizesRequests;
+
+
 }

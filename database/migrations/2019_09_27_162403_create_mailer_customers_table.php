@@ -15,7 +15,7 @@ class CreateMailerCustomersTable extends Migration
         Schema::create('mailer_customers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->index('mailer_customer_email_unique');
             $table->unsignedInteger('mailer_list_id')->nullable()->index();
             $table->string('real_name')->nullable();
             $table->unsignedInteger('user_id')->nullable();
