@@ -4,6 +4,10 @@ namespace Dimimo\AdminMailer;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AdminMailerServiceProvider
+ * @package Dimimo\AdminMailer
+ */
 class AdminMailerServiceProvider extends ServiceProvider
 {
     /**
@@ -55,6 +59,7 @@ class AdminMailerServiceProvider extends ServiceProvider
         $this->app->singleton('admin-mailer', function () {
             return new AdminMailer();
         });
+        $this->app->alias('AdminMailer', 'Dimimo\AdminMailer\AdminMailer');
     }
 
     /**
