@@ -2,13 +2,30 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 
+/**
+ * Class EntryController
+ * @package Dimimo\AdminMailer\Http\Controllers
+ */
 class EntryController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use ValidatesRequests;
+
+    /**
+     * @var Request $request
+     */
+    protected $request;
+
+    /**
+     * EntryController constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 }
 

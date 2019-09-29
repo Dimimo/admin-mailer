@@ -4,14 +4,13 @@ namespace Dimimo\AdminMailer;
 
 use EntriesRepository;
 use DatabaseEntriesRepository;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 /**
  * Class AdminMailerServiceProvider
  * @package Dimimo\AdminMailer
  */
-class AdminMailerServiceProvider extends ServiceProvider
+class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -29,6 +28,7 @@ class AdminMailerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
+        view()->share('prefix', config('admin-mailer.prefix') . '.');
     }
 
     /**

@@ -7,6 +7,39 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Dimimo\AdminMailer\Models\MailerListModel
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property int|null $city_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerCampaignModel[] $campaigns
+ * @property-read int|null $campaigns_count
+ * @property-read \App\Models\City|null $city
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerCustomerModel[] $customers
+ * @property-read int|null $customers_count
+ * @property-read \App\Models\User $owner
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerListModel onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerListModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerListModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerListModel withoutTrashed()
+ * @mixin \Eloquent
+ */
 class MailerListModel extends Model
 {
     use SoftDeletes;
