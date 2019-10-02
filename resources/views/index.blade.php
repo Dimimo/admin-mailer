@@ -7,12 +7,47 @@
             <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
         </div>
         <div class="card-body">
-            This is the index page
-            <h4>Routes</h4>
-            <h5>Customers</h5>
-            <ul>
-                <li><a href="{{ route($prefix . 'customers.index') }}">Index</a></li>
-            </ul>
+            <div class="row">
+                <div class="col-2">
+                    <h5 class="center">Customers</h5>
+                    <div class="list-group">
+                        <a href="{{ route($prefix . 'customers.index') }}" class="list-group-item list-group-item-action">Index</a>
+                        <a href="{{ route($prefix.'customers.create') }}" class="list-group-item list-group-item-action">Add
+                            new</a>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <h5 class="center">Lists</h5>
+                    <div class="list-group">
+                        <a href="{{ route($prefix . 'lists.index') }}" class="list-group-item list-group-item-action">Index</a>
+                        <a href="{{ route($prefix . 'lists.create') }}" class="list-group-item list-group-item-action">Add
+                            new</a>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <h5 class="center">Campaigns</h5>
+                    <div class="list-group">
+                        <a href="{{ route($prefix . 'campaigns.index') }}" class="list-group-item list-group-item-action">Index</a>
+                        <a href="{{ route($prefix . 'campaigns.create') }}" class="list-group-item list-group-item-action">Add
+                            new</a>
+                        <a href="{{ route($prefix.'campaigns.lists') }}" class="list-group-item list-group-item-action">Lists</a>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <h5 class="center">Emails</h5>
+                    <div class="list-group">
+                        <a href="{{ route($prefix . 'emails.index') }}" class="list-group-item list-group-item-action">Index</a>
+                        <a href="{{ route($prefix . 'emails.create') }}" class="list-group-item list-group-item-action">Add
+                            new</a>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <h5 class="center">Logs/Tracking</h5>
+                    <div class="list-group">
+                        <a href="{{ route($prefix . 'logs.index') }}" class="list-group-item list-group-item-action">Index</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

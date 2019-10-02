@@ -69,7 +69,7 @@ class MailerLogModel extends Model
      */
     public function customer()
     {
-        return $this->belongsTo(MailerCustomerModel::class);
+        return $this->belongsTo(MailerCustomerModel::class, 'mailer_customer_id', 'id');
     }
 
     /**
@@ -79,6 +79,6 @@ class MailerLogModel extends Model
      */
     public function email()
     {
-        return $this->belongsTo(MailerEmailModel::class);
+        return $this->belongsTo(MailerEmailModel::class, 'mailer_email_id', 'id');
     }
 }

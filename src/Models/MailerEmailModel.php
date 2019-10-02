@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Dimimo\AdminMailer\Models\MailerEmailModel
  *
  * @property int $id
- * @property string $name
+ * @property string $title
  * @property string|null $body
  * @property int $mailer_campaign_id
  * @property int $draft
- * @property \Illuminate\Support\Carbon $send_datetime
+ * @property \Illuminate\Support\Carbon|null $send_datetime
  * @property int $created_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -34,8 +34,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereDraft($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereMailerCampaignId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereSendDatetime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel withoutTrashed()
@@ -74,7 +74,7 @@ class MailerEmailModel extends Model
      */
     public function campaign()
     {
-        return $this->belongsTo(MailerCampaignModel::class);
+        return $this->belongsTo(MailerCampaignModel::class, 'mailer_campaign_id', 'id');
     }
 
     /**

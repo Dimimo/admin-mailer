@@ -43,28 +43,44 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MailerListModel extends Model
 {
     use SoftDeletes;
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'mailer_lists';
+
     /**
      * @var array
      */
     protected $casts = ['send_datetime' => 'datetime'];
+
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
     protected $guarded = [];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = [];
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['city'];
+    /**
+     * The relationship counts that should be eager loaded on every query.
+     *
+     * @var array
+     */
+    protected $withCount = [];
 
     /**
      * a list has many customers
@@ -73,7 +89,7 @@ class MailerListModel extends Model
      */
     public function customers()
     {
-        return $this->hasMany(MailerCustomerModel::class);
+        return $this->hasMany(MailerCustomerModel::class, 'mailer_list_id', 'id');
     }
 
     /**
@@ -83,7 +99,7 @@ class MailerListModel extends Model
      */
     public function campaigns()
     {
-        return $this->belongsToMany(MailerCampaignModel::class, 'mailer_campaign_mailer_list');
+        return $this->belongsToMany(MailerCampaignModel::class, 'mailer_campaign_mailer_list', 'mailer_campaign_id', 'mailer_list_id');
     }
 
     /**

@@ -5,12 +5,17 @@ namespace Dimimo\AdminMailer\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use Dimimo\AdminMailer\Http\Requests\CustomerRequest;
-use Dimimo\AdminMailer\Models\MailerCustomerModel as Customer;
-use Dimimo\AdminMailer\Models\MailerListModel as MailerList;
+use Dimimo\AdminMailer\Http\Traits\ListTrait;
+use Dimimo\AdminMailer\Models\MailerCustomerModel as MailerCustomer;
 use Illuminate\Support\Str;
 
+/**
+ * Class CustomerController
+ * @package Dimimo\AdminMailer\Http\Controllers
+ */
 class CustomerController extends Controller
 {
+    use ListTrait;
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +23,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = MailerCustomer::with('list')->orderBy('name')->get();
 
         return view('admin-mailer::customers.index', compact('customers'));
     }
@@ -30,7 +35,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $customer = new Customer(['uuid' => Str::uuid()->getHex()]);
+        $customer = new MailerCustomer(['uuid' => Str::uuid()->getHex()]);
         $lists = $this->getLists();
 
         return view('admin-mailer::customers.create', compact('customer', 'lists'));
@@ -44,7 +49,7 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
-        $customer = new Customer($request->validated());
+        $customer = new MailerCustomer($request->validated());
         $customer->accepts_mail ?: $customer->accepts_mail = '0';
         $customer->city_id = City::getCityFromAutoComplete($customer->city_id);
         $customer->save();
@@ -62,7 +67,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = MailerCustomer::findOrFail($id);
 
         return view('admin-mailer::customers.show', compact('customer'));
     }
@@ -75,7 +80,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = MailerCustomer::findOrFail($id);
         $customer->city_id = City::getCityName($customer->city_id);
         $lists = $this->getLists();
 
@@ -91,7 +96,7 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, $id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = MailerCustomer::findOrFail($id);
         $data = $request->validated();
         $request->get('accepts_mail') ?: $data['accepts_mail'] = 0;
         $data['city_id'] = City::getCityFromAutoComplete($data['city_id']);
@@ -107,14 +112,14 @@ class CustomerController extends Controller
      *
      * @param int $id
      * @return \Illuminate\Http\Response
+     *
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        //
-    }
-
-    private function getLists()
-    {
-        return MailerList::orderBy('name')->get();
+        $customer = MailerCustomer::findOrFail($id);
+        $customer->delete();
+        
+        return redirect()->route('admin-mailer.customer.index')->with('success', "The customer <strong>{$customer->name}</strong> has been deleted");
     }
 }

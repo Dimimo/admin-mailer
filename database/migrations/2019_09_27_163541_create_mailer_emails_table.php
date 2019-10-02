@@ -14,11 +14,11 @@ class CreateMailerEmailsTable extends Migration
     {
         Schema::create('mailer_emails', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
             $table->text('body')->nullable();
             $table->unsignedInteger('mailer_campaign_id')->index();
             $table->boolean('draft')->default(true)->index();
-            $table->dateTime('send_datetime');
+            $table->dateTime('send_datetime')->nullable()->index();
             $table->unsignedInteger('created_by')->index();
             $table->timestamps();
             $table->softDeletes();

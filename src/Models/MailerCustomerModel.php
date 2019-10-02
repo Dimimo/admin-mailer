@@ -10,9 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class MailerCustomerModel
+ * Dimimo\AdminMailer\Models\MailerCustomerModel
  *
- * @package Dimimo\AdminMailer\Models
  * @property int $id
  * @property string $name
  * @property string $email
@@ -28,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\City|null $city
- * @property-read \Dimimo\AdminMailer\Models\MailerListModel $list
+ * @property-read \Dimimo\AdminMailer\Models\MailerListModel|null $list
  * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerLogModel[] $logs
  * @property-read int|null $logs_count
  * @property-read \App\Models\ServiceCategory|null $service
@@ -91,7 +90,7 @@ class MailerCustomerModel extends Model
      */
     public function list()
     {
-        return $this->belongsTo(MailerListModel::class);
+        return $this->belongsTo(MailerListModel::class, 'mailer_list_id', 'id');
     }
 
     /**
@@ -111,7 +110,7 @@ class MailerCustomerModel extends Model
      */
     public function logs()
     {
-        return $this->hasMany(MailerLogModel::class);
+        return $this->hasMany(MailerLogModel::class, 'mailer_customer_id', 'id');
     }
 
     /**

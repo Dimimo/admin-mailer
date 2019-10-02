@@ -5,14 +5,14 @@
     <div class="card">
         <div class="card-header bg-light align-center">
             <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
-            <h4 class="text-muted">Show the details of <strong>{{ $customer->name }}</strong></h4>
+            <h4 class="text-muted">Show the details of the campaign <strong>{{ $campaign->name }}</strong></h4>
         </div>
         <div class="card-body">
             <div class="col-2 offset-10 align-right">
-                <a href="{{ route($prefix.'customers.index') }}">Overview</a><br>
-                <a href="{{ route($prefix.'customers.edit', [$customer->id]) }}"><span class="fas fa-edit"></span> Edit</a>
+                <a href="{{ route($prefix.'campaigns.index') }}">Overview</a><br>
+                <a href="{{ route($prefix.'campaigns.lists') }}"><span class="fas fa-list-ul"></span> Lists</a>
             </div>
-            {{ dump($customer) }}
+            @include('admin-mailer::campaigns._card')
         </div>
     </div>
 
