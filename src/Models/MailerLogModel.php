@@ -15,30 +15,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $read_datetime
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Dimimo\AdminMailer\Models\MailerCustomerModel $customer
  * @property-read \Dimimo\AdminMailer\Models\MailerEmailModel $email
- * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel newQuery()
  * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerLogModel onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel query()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereMailerCustomerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereMailerEmailId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereReadDatetime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereUuid($value)
- * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerLogModel withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerLogModel withoutTrashed()
  * @mixin \Eloquent
  */
 class MailerLogModel extends Model
 {
-    use SoftDeletes;
     /**
      * The database table used by the model.
      *

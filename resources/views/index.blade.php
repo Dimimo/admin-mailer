@@ -42,6 +42,12 @@
                     </div>
                 </div>
                 <div class="col-2">
+                    <h5 class="center">Mailer</h5>
+                    <div class="list-group">
+                        <a href="{{ route($prefix . 'mailer.index') }}" class="list-group-item list-group-item-action">Index</a>
+                    </div>
+                </div>
+                <div class="col-2">
                     <h5 class="center">Logs/Tracking</h5>
                     <div class="list-group">
                         <a href="{{ route($prefix . 'logs.index') }}" class="list-group-item list-group-item-action">Index</a>

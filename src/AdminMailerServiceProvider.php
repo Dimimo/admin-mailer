@@ -5,6 +5,7 @@ namespace Dimimo\AdminMailer;
 use EntriesRepository;
 use DatabaseEntriesRepository;
 use Illuminate\Support\Facades\Route;
+use Dimimo\AdminMailer\Notifications\EventHandler;
 
 /**
  * Class AdminMailerServiceProvider
@@ -55,6 +56,11 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
         }
     }
 
+    /**
+     * The global config for the Admin Mailer
+     *
+     * @return array
+     */
     private function routeConfiguration()
     {
         return [
@@ -97,6 +103,8 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/admin-mailer.php', 'admin-mailer');
+        //register the events
+        $this->app['events']->subscribe(EventHandler::class);
         // Register the service the package provides.
         $this->app->singleton('admin-mailer', function () {
             return new AdminMailer();

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 $prefix = config('admin-mailer.prefix') . '.';
 
 Route::get('/', 'HomeController@index');
+
 Route::name($prefix)->group(function() {
     Route::prefix('customers')->name('customers.')->group(function() {
         Route::get('', 'CustomerController@index')->name('index'); //name = admin-mailer.customers.index
@@ -37,6 +38,8 @@ Route::name($prefix)->group(function() {
         Route::put('{id}/update', 'CampaignController@update')->name('update');
         Route::delete('{id}/destroy', 'CampaignController@destroy')->name('destroy');
         Route::get('lists', 'CampaignController@listsEdit')->name('lists');
+        Route::get('{id}/customers', 'CampaignController@customers')->name('customers');
+        Route::get('{id}/emails', 'CampaignController@emails')->name('emails');
     });
 
     Route::prefix('emails')->name('emails.')->group(function() {
@@ -49,6 +52,13 @@ Route::name($prefix)->group(function() {
         Route::delete('{id}/destroy', 'EmailController@destroy')->name('destroy');
         Route::get('lists', 'EmailController@listsView')->name('lists');
         Route::get('{id}/copy', 'EmailController@copyEmail')->name('copy');
+        Route::get('send_test/{id}', 'EmailController@sendTest')->name('send_copy'); //ajax function
+    });
+
+    Route::prefix('mailer')->name('mailer.')->group(function() {
+        Route::get('/', 'MailerController@index')->name('index'); //name = admin-mailer.mailer.index
+        Route::get('{id}/send', 'MailerController@send')->name('send');
+        Route::post('sending_email', 'MailerController@sending')->name('sending');
     });
 
     Route::prefix('logs')->name('logs.')->group(function() {

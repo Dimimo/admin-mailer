@@ -17,6 +17,7 @@ class CreateMailerCustomersTable extends Migration
             $table->string('name');
             $table->string('email')->unique()->index('mailer_customers_email_unique');
             $table->unsignedInteger('mailer_list_id')->nullable()->index();
+            $table->string('url')->nullable();
             $table->string('real_name')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->string('uuid', 32)->unique()->index('mailer_customers_uuid_unique');

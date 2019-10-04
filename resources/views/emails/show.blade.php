@@ -12,10 +12,42 @@
         <div class="card-body">
             <div class="col-2 offset-10 align-right">
                 <a href="{{ route($prefix.'emails.index') }}">Overview</a><br>
-                <a href="{{ route($prefix.'emails.edit', [$email->id]) }}"><span class="fas fa-edit"></span> Edit</a>
+                @if ($email->draft)
+                    <a href="{{ route($prefix.'emails.edit', [$email->id]) }}">
+                        <span class="fas fa-edit"></span> Edit
+                    </a>
+                @else
+                    <a href="{{ route($prefix.'emails.copy', [$email->id]) }}"
+                       title="copy the content and create a new email">
+                        <span class="far fa-copy"></span> Copy
+                    </a>
+                @endif
             </div>
-            {{ dump($email) }}
+            @if ($email->draft)
+                <div class="box-rounded-grey p-3 m-5">
+                    <a href="{{ route($prefix.'emails.send_copy', [$email->id]) }}" id="send_test">
+                        <span class="fas fa-shipping-fast green"></span> Send a test email to your inbox
+                    </a>
+                    <div id="send_mail" style="display: none;" class="p-3 bigger-140">
+                        <a href="{{ route($prefix.'mailer.send', [$email->id]) }}">
+                            <span class="fab fa-themeisle green"></span> Send this email to the customers
+                        </a>
+                    </div>
+                </div>
+            @else
+                <div class="box-rounded-info p-3 m-5 center">
+                    <h5>This mail has been send on {{ $email->send_datetime->format('d-m-Y H:i') }}</h5>
+                    <a href="{{ route($prefix.'emails.copy', [$email->id]) }}"
+                       class="btn btn-link col-auto" title="copy the content and create a new email">
+                        <span class="far fa-copy"></span> You may copy the email's content to create a new email
+                    </a>
+                </div>
+            @endif
+            @include('admin-mailer::emails._card')
         </div>
     </div>
+    <div id="snackbar"></div>
 
 @endsection
+
+@include('admin-mailer::js.send_test_mail')

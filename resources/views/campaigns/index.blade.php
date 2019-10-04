@@ -18,7 +18,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Created</th>
+                    <th>Updated</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th><span class="fas fa-list-ul" title="Number of lists connected to this campaign"></span></th>
@@ -31,12 +31,25 @@
                 <tbody>
                 @foreach ($campaigns as $campaign)
                     <tr>
-                        <td>{{ $campaign->created_at->format('d/m/Y') }}</td>
-                        <td><a href="{{ route('admin-mailer.campaigns.show', [$campaign->id]) }}">{{ $campaign->name }}</a></td>
+                        <td>{{ $campaign->updated_at->format('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ route('admin-mailer.campaigns.show', [$campaign->id]) }}"
+                               title="{{ $campaign->name }}">
+                                {{ Illuminate\Support\Str::limit($campaign->name, 25) }}
+                            </a>
+                        </td>
                         <td class="text-wrap">{!! wordwrap($campaign->description, 50, '<br>') !!}</td>
                         <td>{{ $campaign->lists_count }}</td>
-                        <td>{{ $campaign->emails_count }}</td>
-                        <td><strong>{{ count($campaign->uuid_customers) }}</strong></td>
+                        <td>
+                            <a href="{{ route($prefix.'campaigns.emails', [$campaign->id]) }}">
+                                {{ $campaign->emails_count }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ route($prefix.'campaigns.customers', [$campaign->id]) }}">
+                                <strong>{{ count($campaign->uuid_customers) }}</strong>
+                            </a>
+                        </td>
                         <td>
                             <a href="{{ route('user.profile.show', [$campaign->owner->slug]) }}">
                                 <span class="fas fa-user-cog" title="{{ $campaign->owner->username }}"></span>
@@ -44,10 +57,12 @@
                         </td>
                         <td class="align-right">
                             <div class="row justify-content-end">
-                                <a href="{{ route($prefix.'campaigns.edit', [$campaign->id]) }}" class="btn btn-link col-auto green">
+                                <a href="{{ route($prefix.'campaigns.edit', [$campaign->id]) }}"
+                                   class="btn btn-link col-auto green">
                                     <span class="fas fa-edit"></span>
                                 </a>
-                                <form action="{{ route($prefix.'campaigns.destroy', [$campaign->id]) }}" class="col-auto ml-n3 pr-1"
+                                <form action="{{ route($prefix.'campaigns.destroy', [$campaign->id]) }}"
+                                      class="col-auto ml-n3 pr-1"
                                       onsubmit="return confirm('Are you sure you want to delete?');" method="post">
                                     {{ csrf_field() }}
                                     @method('DELETE')

@@ -126,6 +126,9 @@ class MailerCampaignModel extends Model
     public function getAllCustomersAttribute()
     {
         $uuids = $this->uuid_customers;
+        if (App()->environment() === 'local') {
+            return MailerCustomerModel::whereIn('uuid', $uuids)->limit(1)->get();
+        }
 
         return MailerCustomerModel::whereIn('uuid', $uuids)->get();
     }

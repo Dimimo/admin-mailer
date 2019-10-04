@@ -66,6 +66,12 @@ class MailerEmailModel extends Model
      * @var array
      */
     protected $hidden = [];
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['owner'];
 
     /**
      * a email belongsTo a campaign

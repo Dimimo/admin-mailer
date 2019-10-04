@@ -3,11 +3,17 @@
 namespace Dimimo\AdminMailer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Auth;
+use Dimimo\AdminMailer\Events\TestMail;
 use Dimimo\AdminMailer\Http\Requests\EmailRequest;
 use Dimimo\AdminMailer\Models\MailerCampaignModel as Campaign;
 use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 
+/**
+ * Class EmailController
+ * @package Dimimo\AdminMailer\Http\Controllers
+ */
 class EmailController extends Controller
 {
     /**
@@ -60,7 +66,7 @@ class EmailController extends Controller
      */
     public function show($id)
     {
-        $email = Email::with(['campaign', 'owner'])->findOrFail($id);
+        $email = Email::with('campaign')->findOrFail($id);
 
         return view('admin-mailer::emails.show', compact('email'));
     }
@@ -74,6 +80,13 @@ class EmailController extends Controller
     public function edit($id)
     {
         $email = Email::with('campaign')->findOrFail($id);
+        if ($email->send_datetime) {
+            $message = "The email <strong>{$email->title}</strong> can't be updated because it has been send out already!";
+            $message .= "Use the copy function instead.";
+            return redirect()
+                ->back()
+                ->with('warning', $message);
+        }
         $campaigns = Campaign::orderBy('name')->get();
 
         return view('admin-mailer::emails.edit', compact('email', 'campaigns'));
@@ -101,12 +114,29 @@ class EmailController extends Controller
      *
      * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        //
+        $email = Email::findOrFail($id);
+        if ($email->send_datetime) {
+            return redirect()
+                ->back()
+                ->with('warning', "The email <strong>{$email->title}</strong> can't be deleted because it has been send out already!");
+        }
+        $email->delete();
+
+        return redirect()
+            ->route('admin-mailer.emails.index')
+            ->with('success', "The email <strong>{$email->title}</strong> has been deleted.");
     }
 
+    /**
+     * Copy the body of a selected email to create a new email
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function copyEmail($id)
     {
         $email = Email::select('body')->find($id)->toArray();
@@ -114,5 +144,22 @@ class EmailController extends Controller
         $campaigns = Campaign::orderBy('name')->get();
 
         return view('admin-mailer::emails.create', compact('email', 'campaigns'));
+    }
+
+    /**
+     * Send a test mail to yourself for testing the outcome of the body
+     * This is an AJAX request with JSON reply
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendTest($id)
+    {
+        event(new TestMail(
+                User::find(Auth::id()),
+                Email::findOrFail($id))
+        );
+
+        return response()->json(['type' => 'success', 'message' => 'A test email has been send out']);
     }
 }

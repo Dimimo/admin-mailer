@@ -2,10 +2,11 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\City;
 use Dimimo\AdminMailer\Http\Requests\ListRequest;
 use Dimimo\AdminMailer\Models\MailerListModel as MailerList;
-use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ListController extends Controller
@@ -17,9 +18,11 @@ class ListController extends Controller
      */
     public function index()
     {
-        $lists = MailerList::with(['campaigns' => function(BelongsToMany $q) {
+        $lists = MailerList::with(['campaigns' => function (BelongsToMany $q) {
             return $q->orderBy('name');
-        }])->withCount(['campaigns', 'customers'])->orderBy('name')->get();
+        }])->withCount(['campaigns', 'customers' => function (Builder $q) {
+            return $q->where('accepts_mail', '=', '1');
+        }])->orderBy('name')->get();
 
         return view('admin-mailer::lists.index', compact('lists'));
     }
@@ -39,7 +42,7 @@ class ListController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ListRequest  $request
+     * @param ListRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(ListRequest $request)
@@ -56,14 +59,14 @@ class ListController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $list = MailerList::with(['campaigns' => function(BelongsToMany $q) {
-        return $q->orderBy('name');
-    }])->withCount(['campaigns', 'customers'])->findOrFail($id);
+        $list = MailerList::with(['campaigns' => function (BelongsToMany $q) {
+            return $q->orderBy('name');
+        }])->withCount(['campaigns', 'customers'])->findOrFail($id);
 
         return view('admin-mailer::lists.show', compact('list'));
     }
@@ -71,7 +74,7 @@ class ListController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -85,8 +88,8 @@ class ListController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  ListRequest  $request
-     * @param  int  $id
+     * @param ListRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ListRequest $request, $id)
@@ -104,7 +107,7 @@ class ListController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      *
      * @throws \Exception

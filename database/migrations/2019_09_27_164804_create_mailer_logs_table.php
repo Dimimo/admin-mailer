@@ -17,9 +17,8 @@ class CreateMailerLogsTable extends Migration
             $table->string('uuid', 32);
             $table->unsignedInteger('mailer_customer_id')->index();
             $table->unsignedInteger('mailer_email_id')->index();
-            $table->dateTime('read_datetime');
+            $table->dateTime('read_datetime')->nullable()->index();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

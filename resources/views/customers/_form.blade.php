@@ -57,6 +57,22 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="url" class="col-2 col-form-label align-right">Web link</label>
+        <div class="col-10">
+            <input class="form-control @if ($errors->has('url')) is-invalid @endif"
+                   type="url" id="url" name="url" placeholder="(optional)"
+                   value="{{ old('url', $customer->url) }}" aria-describedby="realNameHelp">
+            @if ($errors->has('url'))
+                <div class="invalid-feedback">
+                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('url') }}
+                </div>
+            @endif
+            <small id="realNameHelp" class="form-text text-muted">
+                This option field contains a website link, either to the customers website or for other purposes.
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
         <label for="city_id" class="col-2 col-form-label align-right">City (optional)</label>
         <div class="col-10">
             <input class="form-control @if ($errors->has('city_id')) is-invalid @endif"

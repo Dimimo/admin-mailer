@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $email
  * @property int|null $mailer_list_id
+ * @property string|null $url
  * @property string|null $real_name
  * @property int|null $user_id
  * @property string $uuid
@@ -51,6 +52,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereSiteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUuid($value)
  * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel withTrashed()

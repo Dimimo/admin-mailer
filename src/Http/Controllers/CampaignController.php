@@ -8,6 +8,7 @@ use Dimimo\AdminMailer\Http\Requests\CampaignRequest;
 use Dimimo\AdminMailer\Http\Traits\ListTrait;
 use Dimimo\AdminMailer\Models\MailerCampaignModel as Campaign;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class CampaignController
@@ -24,7 +25,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $campaigns = Campaign::with('lists')->withCount(['emails', 'lists'])->orderBy('name')->get();
+        $campaigns = Campaign::with('lists')->withCount(['emails', 'lists'])->orderByDesc('updated_at')->get();
 
         return view('admin-mailer::campaigns.index', compact('campaigns'));
     }
@@ -68,7 +69,7 @@ class CampaignController extends Controller
      */
     public function show($id)
     {
-        $campaign = Campaign::with('lists')->withCount(['emails', 'lists'])->findOrFail($id);
+        $campaign = Campaign::with(['lists', 'emails'])->withCount(['emails', 'lists'])->findOrFail($id);
 
         return view('admin-mailer::campaigns.show', compact('campaign', 'selectLists'));
     }
@@ -145,6 +146,34 @@ class CampaignController extends Controller
         $lists = $this->getLists();
 
         return view('admin-mailer::campaigns.lists', compact('campaigns', 'lists'));
+    }
+
+    /**
+     * Show all the emails connected to a Campaign
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function emails($id) {
+        $campaign = Campaign::with(['emails' => function(HasMany $q) {
+            return $q->orderBy('updated_at', 'asc');
+        }])->findOrFail($id);
+        $emails = $campaign->emails;
+
+        return view('admin-mailer::campaigns.emails', compact('campaign', 'emails'));
+}
+
+    /**
+     * Show all customers connected to a Campaign
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function customers($id) {
+        $campaign = Campaign::findOrFail($id);
+        $customers = $campaign->all_customers;
+
+        return view('admin-mailer::campaigns.customers', compact('campaign', 'customers'));
     }
 
     /**

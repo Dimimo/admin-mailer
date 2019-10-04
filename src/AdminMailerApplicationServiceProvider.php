@@ -33,7 +33,7 @@ class AdminMailerApplicationServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Telescope gate.
+     * Register the admin-mailer gate.
      *
      * This gate determines who can access Telescope in non-local environments.
      *
@@ -41,7 +41,7 @@ class AdminMailerApplicationServiceProvider extends ServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewTelescope', function ($user) {
+        Gate::define('admin-mailer', function ($user) {
             return in_array($user->email, config('admin-mailer.gate.admins'));
         });
     }
