@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @include('admin-mailer::header')
+
     <div class="card">
         <div class="card-header bg-light">
             <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>

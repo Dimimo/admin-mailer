@@ -2,7 +2,6 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Auth;
 use Dimimo\AdminMailer\Events\TestMail;
@@ -14,7 +13,7 @@ use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
  * Class EmailController
  * @package Dimimo\AdminMailer\Http\Controllers
  */
-class EmailController extends Controller
+class EmailController extends EntryController
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +22,10 @@ class EmailController extends Controller
      */
     public function index()
     {
-        $emails = Email::with('campaign')->orderBy('title')->get();
+        $emails = Email
+            ::orderBy('mailer_campaign_id', 'asc')
+            ->orderBy('title')
+            ->get();
 
         return view('admin-mailer::emails.index', compact('emails'));
     }
@@ -31,11 +33,18 @@ class EmailController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param int $campaign_id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($campaign_id = null)
     {
-        $email = new Email();
+        if($campaign_id) {
+            $campaign = Campaign::findOrFail($campaign_id);
+            $email = new Email(['mailer_campaign_id' => $campaign->id]);
+        }
+        else {
+            $email = new Email();
+        }
         $campaigns = Campaign::orderBy('name')->get();
 
         return view('admin-mailer::emails.create', compact('email', 'campaigns'));
@@ -66,7 +75,7 @@ class EmailController extends Controller
      */
     public function show($id)
     {
-        $email = Email::with('campaign')->findOrFail($id);
+        $email = Email::findOrFail($id);
 
         return view('admin-mailer::emails.show', compact('email'));
     }
@@ -79,7 +88,7 @@ class EmailController extends Controller
      */
     public function edit($id)
     {
-        $email = Email::with('campaign')->findOrFail($id);
+        $email = Email::findOrFail($id);
         if ($email->send_datetime) {
             $message = "The email <strong>{$email->title}</strong> can't be updated because it has been send out already!";
             $message .= "Use the copy function instead.";

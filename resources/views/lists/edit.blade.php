@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @include('admin-mailer::header')
+
     <div class="card">
         <div class="card-header bg-light align-center">
             <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
@@ -9,7 +11,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-2 offset-10 align-right">
+                <div class="col-2 offset-10 align-right mb-3">
                     <a href="{{ route($prefix.'lists.index') }}"><span class="fas fa-list-ul"></span> Overview</a>
                 </div>
             </div>

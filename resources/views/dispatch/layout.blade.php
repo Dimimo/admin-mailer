@@ -1,56 +1,116 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html lang="en">
 <head>
-    <title>{{ $subject }}</title>
+    <title>{{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta content="telephone=no" name="format-detection"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
-        body { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; margin: 0 !important; padding: 0 !important; }
+        body {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
 
-        body .title-text { font-size: 20px; font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: bold; color: #005FB4; line-height: 1.5; text-align: left; }
+        body .title-text {
+            font-size: 20px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: bold;
+            color: #005FB4;
+            line-height: 1.5;
+            text-align: left;
+        }
 
-        body .inner-text { font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.5; padding-bottom: 20px; }
+        body .inner-text {
+            font-size: 14px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #333333;
+            line-height: 1.5;
+            padding-bottom: 20px;
+        }
 
-        p { margin: 1em 0; }
+        p {
+            margin: 1em 0;
+        }
 
-        table td { border-collapse: collapse; }
+        table td {
+            border-collapse: collapse;
+        }
 
-        img { outline: 0; }
+        img {
+            outline: 0;
+        }
 
-        a img { border: none; }
+        a img {
+            border: none;
+        }
 
-        p { margin: 1em 0; }
+        p {
+            margin: 1em 0;
+        }
 
         @-ms-viewport {
             min-width: 480px;
             max-width: 960px;
-            }
+        }
 
         @media only screen and (max-width: 480px) {
-            body .container { width: 100% !important; }
-
-            body .footer { width: auto !important; margin-left: 0; }
-
-            body .content-padding { padding: 4px !important; }
-
-            body .logo { display: block !important; padding: 0 !important; }
-
-            body .content img { width: auto !important; max-width: 100% !important; height: auto !important; max-height: inherit !important; }
-
-            body .photo img { width: 100% !important; max-width: 100% !important; height: auto !important; }
-
-            body .drop { display: block !important; width: 100% !important; float: left; clear: both; }
+            body .container {
+                width: 100% !important;
             }
+
+            body .footer {
+                width: auto !important;
+                margin-left: 0;
+            }
+
+            body .content-padding {
+                padding: 4px !important;
+            }
+
+            body .logo {
+                display: block !important;
+                padding: 0 !important;
+            }
+
+            body .content img {
+                width: auto !important;
+                max-width: 100% !important;
+                height: auto !important;
+                max-height: inherit !important;
+            }
+
+            body .photo img {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            body .drop {
+                display: block !important;
+                width: 100% !important;
+                float: left;
+                clear: both;
+            }
+        }
 
         @media only screen and (max-width: 660px) {
-            body .container { width: 100% !important; }
-
-            body .logo { display: block !important; padding: 0 !important; }
-
-            body .photo img { width: 100% !important; height: auto !important; }
+            body .container {
+                width: 100% !important;
             }
+
+            body .logo {
+                display: block !important;
+                padding: 0 !important;
+            }
+
+            body .photo img {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
     </style>
 </head>
 <body bgcolor="#ffffff" text="#212121"
@@ -65,12 +125,14 @@
                         <table cellspacing="0" cellpadding="0" bgcolor="#ffffff" width="100%">
                             <tr>
                                 <td class="title-text">
-                                    <p class="logo" style="background-color: #1963aa; padding: 5px; border-radius: 5px;" align="center">
+                                    <p class="logo" style="color: white; background-color: #1963aa; padding: 5px; border-radius: 5px;"
+                                       align="center">
                                         <a href="https://www.puertoparrot.com">
-                                            <img src="https://www.puertoparrot.com/img/mail-logo.png" width="300" height="51" alt="Puerto Parrot">
+                                            <img src="{{ url(config('admin-mailer.logo_link')) }}?u={{ $log->uuid }}"
+                                                 width="300" height="51" alt="Puerto Parrot">
                                         </a>
                                     </p>
-                                    <p class="title-text">{{ $subject }}</p>
+                                    <p class="title-text">{{ $title }}</p>
                                 </td>
                             </tr>
                         </table>
@@ -86,7 +148,7 @@
                     <td style="padding: 10px 0 10px 0;">
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
-                                <td align="left" class="content content-padding">
+                                <td align="left" class="content content-padding inner-text">
                                     @yield('content')
                                 </td>
                             </tr>
@@ -154,7 +216,18 @@
         <td align="center" valign="top" style="background: #e5e5e5; padding: 30px 16px" class="footer">
             <table cellspacing="0" cellpadding="0" border="0" width="628" class="container" align="center">
                 <tr>
-                    <td style="font-size: 10px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.5; padding: 0 0 8px 0; margin: 0; text-align: left">
+                    <td style="font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.1rem; padding: 0 0 8px 0; margin: 0; text-align: center">
+                        This is a message by <a href="https://www.puertoparrot.com"
+                                                style="font-weight: bold;color:#333333; text-decoration: none;"
+                                                target="_blank">Puerto Parrot</a><br>
+                        You may unsubscribe at any time by <a
+                                href="{{ route($prefix . 'unsubscribe', ['u' => $customer->uuid]) }}">clicking this
+                            link</a><br>
+                        {{ route($prefix . 'unsubscribe', ['u' => $customer->uuid]) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.5; padding: 0 0 8px 0; margin: 0; text-align: center">
                         Puerto Parrot | &copy; {{ date("Y") }} -
                         <a href="{{ route('home.copyright') }}"
                            style="font-weight:bold; color:#333333; text-decoration:none;">Terms & Conditions</a> -
@@ -162,14 +235,6 @@
                            style="font-weight:bold; color:#333333; text-decoration:none;">Privacy Policy</a> -
                         <a href="{{ route('home.about') }}"
                            style="font-weight:bold; color:#333333; text-decoration:none;">About us</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size: 10px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.5; padding: 0 0 8px 0; margin: 0; text-align: left">
-                        This is an automatically generated service message by <a href="https://www.puertoparrot.com"
-                                                                                 style="font-weight: bold;color:#333333; text-decoration: none;"
-                                                                                 target="_blank">Puerto Parrot</a>. If
-                        you did not expect this message please inform us immediately.
                     </td>
                 </tr>
             </table>

@@ -3,8 +3,7 @@
     {{ csrf_field() }}
     @if ($customer->id) @method('PUT') @endif
     <label for="uuid"></label>
-    <input type="text" hidden id="uuid" name="uuid"
-           value="{{  old('uuid', $customer->uuid) }}">
+    <input type="text" hidden id="uuid" name="uuid" value="{{  old('uuid', $customer->uuid) }}">
     <div class="form-group row">
         <label for="name" class="col-2 col-form-label align-right">Name/Company</label>
         <div class="col-10">
@@ -56,20 +55,27 @@
             </small>
         </div>
     </div>
-    <div class="form-group row">
-        <label for="url" class="col-2 col-form-label align-right">Web link</label>
-        <div class="col-10">
-            <input class="form-control @if ($errors->has('url')) is-invalid @endif"
-                   type="url" id="url" name="url" placeholder="(optional)"
-                   value="{{ old('url', $customer->url) }}" aria-describedby="realNameHelp">
-            @if ($errors->has('url'))
+    <div class="row mb-3">
+        <label for="mailer_list_id" class="col-2 align-right mt-2">Mailer list</label>
+        <div class="col-auto">
+            <select name="mailer_list_id" id="mailer_list_id"
+                    class="custom-select @if ($errors->has('mailer_list_id')) is-invalid @elseif (count($errors) > 0) is-valid @endif">
+                <option value="">Choose a mailing list</option>
+                @foreach($lists as $list)
+                    <option value="{{ $list->id }}"
+                            @if (old('mailer_list_id', $customer->mailer_list_id) == $list->id) selected @endif
+                            title="{{ $list->description }}">{{ $list->name }}</option>
+                @endforeach
+            </select>
+            @if ($errors->has('mailer_list_id'))
                 <div class="invalid-feedback">
-                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('url') }}
+                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('mailer_list_id') }}
+                </div>
+            @elseif (count($errors) > 0)
+                <div class="valid-feedback">
+                    <span class="fas fa-check-circle"></span> List choice is valid
                 </div>
             @endif
-            <small id="realNameHelp" class="form-text text-muted">
-                This option field contains a website link, either to the customers website or for other purposes.
-            </small>
         </div>
     </div>
     <div class="form-group row">
@@ -126,47 +132,72 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-5">
+        <div class="row mb-3">
             <div class="offset-2 col-auto">
                 <div id="transfer_results" style="display: none;">
                     <label for="site_id"></label>
-                    <select name="site_id" id="site_id" class="custom-select"></select>
+                    <select name="site_id" id="site_id" class="custom-select bg-light"></select>
                     <br/>
                 </div>
-                <div id="transfer_no_results" class="red" style="display: none;">There are no results,
-                    please try again.
+                <div id="transfer_no_results" class="red" style="display: none;">There are no results, please try again.
                 </div>
             </div>
         </div>
     @endif
-    <div class="row">
-        <label for="mailer_list_id" class="col-2 align-right mt-2">Mailer list</label>
-        <div class="col-auto">
-            <select name="mailer_list_id" id="mailer_list_id"
-                    class="custom-select @if ($errors->has('mailer_list_id')) is-invalid @elseif (count($errors) > 0) is-valid @endif">
-                <option value="">Choose a mailing list</option>
-                @foreach($lists as $list)
-                    <option value="{{ $list->id }}"
-                            @if (old('mailer_list_id', $customer->mailer_list_id) == $list->id) selected @endif
-                            title="{{ $list->description }}">{{ $list->name }}</option>
-                @endforeach
-            </select>
-            @if ($errors->has('mailer_list_id'))
+    <div class="form-group row">
+        <label for="url" class="col-2 col-form-label align-right">Website</label>
+        <div class="col-10">
+            <input class="form-control @if ($errors->has('url')) is-invalid @endif"
+                   type="url" id="url" name="url" placeholder="(optional)"
+                   value="{{ old('url', $customer->url) }}" aria-describedby="websiteHelp">
+            @if ($errors->has('url'))
                 <div class="invalid-feedback">
-                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('mailer_list_id') }}
-                </div>
-            @elseif (count($errors) > 0)
-                <div class="valid-feedback">
-                    <span class="fas fa-check-circle"></span> List choice is valid
+                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('url') }}
                 </div>
             @endif
+            <small id="websiteHelp" class="form-text text-muted">
+                This option field contains a website link, either to the customers website or for other purposes.
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="wikipedia" class="col-2 col-form-label align-right">Wikipedia</label>
+        <div class="col-10">
+            <input class="form-control @if ($errors->has('wikipedia')) is-invalid @endif"
+                   type="url" id="wikipedia" name="wikipedia" placeholder="(optional)"
+                   value="{{ old('wikipedia', $customer->wikipedia) }}" aria-describedby="wikipediaHelp">
+            @if ($errors->has('wikipedia'))
+                <div class="invalid-feedback">
+                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('wikipedia') }}
+                </div>
+            @endif
+            <small id="wikipediaHelp" class="form-text text-muted">
+                This option field contains a link to Wikipedia.
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="facebook" class="col-2 col-form-label align-right">Facebook</label>
+        <div class="col-10">
+            <input class="form-control @if ($errors->has('facebook')) is-invalid @endif"
+                   type="url" id="facebook" name="facebook" placeholder="(optional)"
+                   value="{{ old('facebook', $customer->facebook) }}" aria-describedby="facebookHelp">
+            @if ($errors->has('facebook'))
+                <div class="invalid-feedback">
+                    <span class="fas fa-exclamation-circle"></span> {{ $errors->first('facebook') }}
+                </div>
+            @endif
+            <small id="facebookHelp" class="form-text text-muted">
+                This option field contains a link to FaceBook.
+            </small>
         </div>
     </div>
     <div class="row">
         <div class="col-10 offset-2 pt-3">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="accepts_mail"
-                       name="accepts_mail" aria-describedby="acceptsEmailHelp" value="1" checked>
+                       name="accepts_mail" aria-describedby="acceptsEmailHelp" value="1"
+                        {{ old('accepts_mail', $customer->accepts_mail) ? ' checked' : '' }}>
                 <label class="custom-control-label align-right" for="accepts_mail">
                     Send emails to this user?
                 </label>
@@ -193,12 +224,11 @@
 @if (!old('site_id', $customer->site_id))
     @push('js')
         <script>
-            //find the sites based on the search string and build the dropdown list
+            //find the sites (businesses) based on the search string and build the dropdown list
             $('input#form_input_site').on('keyup', function (e) {
                 e.preventDefault();
                 let site = this.value;
                 if (site.length > 2) {
-                    //console.log(site);
                     const token = $('input[name=_token]').val();
                     $('#form_input_spinner').show();
                     $.ajax({

@@ -33,7 +33,7 @@ class AdminMailerApplicationServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the admin-mailer gate.
+     * Register the AdminMailer gate.
      *
      * This gate determines who can access Telescope in non-local environments.
      *

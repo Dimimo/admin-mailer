@@ -2,10 +2,10 @@
 
 namespace Dimimo\AdminMailer;
 
-use EntriesRepository;
 use DatabaseEntriesRepository;
-use Illuminate\Support\Facades\Route;
 use Dimimo\AdminMailer\Notifications\EventHandler;
+use EntriesRepository;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class AdminMailerServiceProvider
@@ -42,6 +42,9 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
         });
+        Route::group($this->webRouteConfiguration(), function() {
+            $this->loadRoutesFrom(__DIR__ . '/Http/web.php');
+        });
     }
 
     /**
@@ -57,7 +60,8 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
     }
 
     /**
-     * The global config for the Admin Mailer
+     * The global config for the Admin Mailer web routes
+     * (relative to /admin-mailer/'
      *
      * @return array
      */
@@ -67,6 +71,19 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
             'prefix' => config('admin-mailer.prefix'),
             'namespace' => 'Dimimo\AdminMailer\Http\Controllers',
             'middleware' => 'admin-mailer',
+        ];
+    }
+
+    /**
+     * The global config for the Admin Mailer web routes
+     * (relative to server root)
+     *
+     * @return array
+     */
+    private function webRouteConfiguration()
+    {
+        return [
+            'namespace' => 'Dimimo\AdminMailer\Http\Controllers',
         ];
     }
 

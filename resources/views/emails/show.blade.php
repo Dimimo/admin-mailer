@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @include('admin-mailer::header')
+
     <div class="card">
         <div class="card-header bg-light align-center">
             <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
@@ -10,7 +12,7 @@
                     {{ $email->campaign->name }}</a> Campaign</h5>
         </div>
         <div class="card-body">
-            <div class="col-2 offset-10 align-right">
+            <div class="col-2 offset-10 align-right mb-3">
                 <a href="{{ route($prefix.'emails.index') }}">Overview</a><br>
                 @if ($email->draft)
                     <a href="{{ route($prefix.'emails.edit', [$email->id]) }}">

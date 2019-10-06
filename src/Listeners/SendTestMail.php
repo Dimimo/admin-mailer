@@ -7,10 +7,12 @@
 namespace Dimimo\AdminMailer\Listeners;
 
 use App\Models\User;
+use Dimimo\AdminMailer\Models\MailerLogModel as Logger;
 use Dimimo\AdminMailer\Events\TestMail;
 use Dimimo\AdminMailer\Mails\TestMailToAdmin;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;
+use Illuminate\Support\Str;
 
 /**
  * Class ArticleCreatedEmailUser
@@ -39,7 +41,7 @@ class SendTestMail implements ShouldQueue
     public function handle(TestMail $event)
     {
         $event = $this->replacements($event);
-        Mail::to($event->user)->send(new TestMailToAdmin($event->user, $event->email));
+        Mail::to($event->user)->send(new TestMailToAdmin($event->user, $event->email, new Logger(['uuid' => Str::uuid()->getHex()])));
         //Todo: unset this on production
         //Mail::to($this->admin)->send(new TestMailToAdmin($event->user, $event->email));
     }

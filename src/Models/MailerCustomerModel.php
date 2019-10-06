@@ -16,13 +16,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $email
  * @property int|null $mailer_list_id
- * @property string|null $url
  * @property string|null $real_name
+ * @property int $accepts_mail
+ * @property int $reads_mail
+ * @property string|null $url
+ * @property string|null $wikipedia
+ * @property string|null $facebook
  * @property int|null $user_id
  * @property string $uuid
  * @property int|null $site_id
  * @property int|null $service_id
- * @property int $accepts_mail
  * @property int|null $city_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -45,9 +48,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereFacebook($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereMailerListId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereReadsMail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereSiteId($value)
@@ -55,6 +60,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel whereWikipedia($value)
  * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerCustomerModel withoutTrashed()
  * @mixin \Eloquent
@@ -84,6 +90,12 @@ class MailerCustomerModel extends Model
      * @var array
      */
     protected $hidden = [];
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['list'];
 
     /**
      * a customer belongsTo a list

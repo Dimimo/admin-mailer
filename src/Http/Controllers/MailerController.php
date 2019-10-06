@@ -8,7 +8,6 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Dimimo\AdminMailer\Events\SendMail;
 use Dimimo\AdminMailer\Models\MailerCustomerModel as Customer;
 use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
@@ -19,18 +18,8 @@ use Illuminate\Support\Carbon;
  * Class MailerController
  * @package Dimimo\AdminMailer\Http\Controllers
  */
-class MailerController extends Controller
+class MailerController extends EntryController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Prepare the page to send the emails
      * This page also beholds all the jquery that handles the request
@@ -41,6 +30,11 @@ class MailerController extends Controller
     public function send($id)
     {
         $email = Email::with('campaign')->findOrFail($id);
+        if ($email->send_datetime) {
+            return redirect()
+                ->route('admin-mailer.emails.index')
+                ->with('warning', "The email <strong>{$email->title}</strong> can't be handled because it has already been send to the customers!");
+        }
         $customers = $email->campaign->all_customers->pluck('id');
 
         return view('admin-mailer::mailer.send', compact('email', 'customers'));

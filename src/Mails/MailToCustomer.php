@@ -23,6 +23,10 @@ class MailToCustomer extends Mailable
 {
     use Queueable, SerializesModels;
     /**
+     * @var string $title
+     */
+    public $title;
+    /**
      * @var string $subject
      */
     public $subject;
@@ -53,6 +57,7 @@ class MailToCustomer extends Mailable
         $this->email = $email;
         $this->log = $log;
         $this->subject = "[PuertoParrot.com] " . $this->email->title;
+        $this->title = $this->email->title;
     }
 
     /**
@@ -62,6 +67,9 @@ class MailToCustomer extends Mailable
      */
     public function build()
     {
-        return $this->view('admin-mailer::dispatch.send-customer');
+        return $this
+            ->from(config('admin-mailer.email.from.address'), config('admin-mailer.email.from.name'))
+            ->replyTo(config('admin-mailer.email.reply_to.address'), config('admin-mailer.email.reply_to.name'))
+            ->view('admin-mailer::dispatch.send-customer');
     }
 }

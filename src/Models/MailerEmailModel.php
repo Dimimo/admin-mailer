@@ -71,7 +71,7 @@ class MailerEmailModel extends Model
      *
      * @var array
      */
-    protected $with = ['owner'];
+    protected $with = ['campaign', 'owner'];
 
     /**
      * a email belongsTo a campaign

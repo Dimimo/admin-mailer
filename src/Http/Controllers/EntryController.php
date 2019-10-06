@@ -12,20 +12,6 @@ use Illuminate\Http\Request;
  */
 class EntryController extends Controller
 {
-    use ValidatesRequests;
-
-    /**
-     * @var Request $request
-     */
-    protected $request;
-
-    /**
-     * EntryController constructor.
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
+    //use ValidatesRequests;
 }
 

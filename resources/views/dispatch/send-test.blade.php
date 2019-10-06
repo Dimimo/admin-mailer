@@ -1,4 +1,7 @@
-This is a testmail
+@extends('admin-mailer::dispatch.layout')
 
-Body:
-{!! $email->body !!}
+@section('content')
+
+    @include('admin-mailer::header')
+    {!! $email->body !!}
+@endsection

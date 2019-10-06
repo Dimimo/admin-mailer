@@ -2,7 +2,6 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\City;
 use Dimimo\AdminMailer\Http\Requests\CustomerRequest;
 use Dimimo\AdminMailer\Http\Traits\ListTrait;
@@ -13,7 +12,7 @@ use Illuminate\Support\Str;
  * Class CustomerController
  * @package Dimimo\AdminMailer\Http\Controllers
  */
-class CustomerController extends Controller
+class CustomerController extends EntryController
 {
     use ListTrait;
     /**
@@ -23,7 +22,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = MailerCustomer::with('list')->orderBy('name')->get();
+        $customers = MailerCustomer::with('list')
+            ->orderBy('accepts_mail', 'desc')
+            ->orderBy('name')
+            ->get();
 
         return view('admin-mailer::customers.index', compact('customers'));
     }
@@ -35,7 +37,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $customer = new MailerCustomer(['uuid' => Str::uuid()->getHex()]);
+        $customer = new MailerCustomer(['uuid' => Str::uuid()->getHex(), 'accepts_mail' => '1']);
         $lists = $this->getLists();
 
         return view('admin-mailer::customers.create', compact('customer', 'lists'));
@@ -51,6 +53,7 @@ class CustomerController extends Controller
     {
         $customer = new MailerCustomer($request->validated());
         $customer->accepts_mail ?: $customer->accepts_mail = '0';
+        $customer->reads_mail = '0';
         $customer->city_id = City::getCityFromAutoComplete($customer->city_id);
         $customer->save();
 

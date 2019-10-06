@@ -6,8 +6,8 @@
         <th>Words</th>
         <th>Send?</th>
         <th>Send at</th>
-        <th><span class="fas fa-bullhorn grey" title="Campaign using this email"></span></th>
-        <th><span class="fas fa-user-cog grey" title="Owner of this email"></span></th>
+        <th>Campaign</th>
+        <th><span class="fas fa-users" title="Number of customers reached"></span></th>
         <th></th>
     </tr>
     </thead>
@@ -28,16 +28,23 @@
                     <span class="fas fa-lock green ml-2" title="This email has been send"></span>
                 @endif
             </td>
-            <td>{{ $email->send_datetime ? $email->send_datetime->format('d/m/y H:i') : '' }}</td>
+            <td>
+                @if($email->draft)
+                    <a href="{{ route($prefix.'mailer.send', [$email->id]) }}">
+                        Proceed...
+                    </a>
+                @else
+                    {{ $email->send_datetime ? $email->send_datetime->format('d/m/y H:i') : '' }}</td>
+            @endif
             <td>
                 <a href="{{ route('admin-mailer.campaigns.show', [$email->campaign->id]) }}"
                    title="{{ $email->campaign->name }}">
                     {{ Illuminate\Support\Str::limit($email->campaign->name, 25) }}
                 </a>
             </td>
-            <td>
-                <a href="{{ route('user.profile.show', [$email->owner->slug]) }}">
-                    <span class="fas fa-user-cog" title="{{ $email->owner->username }}"></span>
+            <td title="View the Customers connected to this email Campaign">
+                <a href="{{ route($prefix.'campaigns.customers', [$email->campaign->id]) }}">
+                    <strong>{{ count($email->campaign->uuid_customers) }}</strong>
                 </a>
             </td>
             <td class="align-right">

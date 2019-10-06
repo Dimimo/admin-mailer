@@ -3,9 +3,9 @@
         <h4 class="card-title">
             {{ $campaign->name }}<br>
             <small class="text-muted">
-                reaches {{ count($campaign->uuid_customers) }} customers
+                Reaches {{ count($campaign->uuid_customers) }} customers
                 <a href="{{ route($prefix.'campaigns.customers', [$campaign->id]) }}">
-                    <span class="fas fa-eye green" title="View all customers"></span>
+                    <span class="fas fa-eye fa-spin green" title="View all customers"></span>
                 </a>
             </small>
         </h4>
@@ -43,7 +43,9 @@
                     </a>
                 @empty
                     <div class="text-danger bigger-120">There are no emails yet,
-                        <a href="{{ route($prefix.'emails.create') }}"><span class="fas fa-mail-bulk"></span> create one</a>
+                        <a href="{{ route($prefix.'emails.create', [$campaign->id]) }}">
+                            <span class="fas fa-mail-bulk"></span> create one
+                        </a>
                     </div>
                 @endforelse
             </div>

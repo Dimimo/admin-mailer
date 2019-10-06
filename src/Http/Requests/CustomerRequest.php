@@ -25,12 +25,15 @@ class CustomerRequest extends FormRequest
             'email' => 'required|email|unique:mailer_customers,email,' . $id,
             'mailer_list_id' => 'required',
             'url' => 'sometimes:url',
+            'wikipedia' => 'sometimes:url',
+            'facebook' => 'sometimes:url',
             'user_id' => 'sometimes',
             'city_id' => 'present',
             'site_id' => 'sometimes',
             'service_id' => 'sometimes',
             'uuid' => 'unique:mailer_customers,uuid,' . $id,
             'accepts_mail' => 'boolean',
+            'reads_mail' => 'boolean',
         ];
     }
 
@@ -52,6 +55,8 @@ class CustomerRequest extends FormRequest
             'uuid.unique' => 'This uuid has to be unique, refresh the page and try again',
             'mailer_list_id.required' => 'Please select a mailing list',
             'url.url' => 'The URL should be a valid web link',
+            'wikipedia.url' => 'The URL should be a valid web link',
+            'facebook.url' => 'The URL should be a valid web link',
         ];
     }
 }

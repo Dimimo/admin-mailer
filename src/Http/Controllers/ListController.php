@@ -2,14 +2,17 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\City;
 use Dimimo\AdminMailer\Http\Requests\ListRequest;
 use Dimimo\AdminMailer\Models\MailerListModel as MailerList;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ListController extends Controller
+/**
+ * Class ListController
+ * @package Dimimo\AdminMailer\Http\Controllers
+ */
+class ListController extends EntryController
 {
     /**
      * Display a listing of the resource.
@@ -121,5 +124,29 @@ class ListController extends Controller
         $list->delete();
 
         return redirect()->route('admin-mailer.lists.index')->with('success', "The list <strong>{$list->name}</strong> has been deleted");
+    }
+
+    /**
+     * Show all customers connected to a list
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function customers($id) {
+        $list = MailerList::findOrFail($id);
+        $customers = $list
+            ->customers()
+            ->orderBy('accepts_mail', 'desc')
+            ->orderBy('name')
+            ->get();
+
+        return view('admin-mailer::lists.customers', compact('list', 'customers'));
+    }
+
+    public function campaigns($id) {
+        $list = MailerList::findOrFail($id);
+        $campaigns = $list->campaigns()->orderBy('name')->get();
+
+        return view('admin-mailer::lists.campaigns', compact('list', 'campaigns'));
     }
 }

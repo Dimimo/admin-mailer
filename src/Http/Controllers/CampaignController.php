@@ -2,7 +2,6 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Auth;
 use Dimimo\AdminMailer\Http\Requests\CampaignRequest;
 use Dimimo\AdminMailer\Http\Traits\ListTrait;
@@ -14,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Class CampaignController
  * @package Dimimo\AdminMailer\Http\Controllers
  */
-class CampaignController extends Controller
+class CampaignController extends EntryController
 {
     use ListTrait;
 
@@ -116,17 +115,13 @@ class CampaignController extends Controller
     public function destroy($id)
     {
         $campaign = Campaign::findOrFail($id);
-        if ($campaign->lists()->count() > 0) {
-            return redirect()
-                ->back()
-                ->with('warning', "The campaign {$campaign->name} can not be deleted because it still has lists");
-        }
         if ($campaign->emails()->count() > 0) {
             return redirect()
                 ->back()
-                ->with('warning', "The campaign {$campaign->name} can not be deleted because it still has emails");
+                ->with('warning', "The campaign {$campaign->name} can not be deleted because it has emails");
         }
-        $campaign->delete();
+        $campaign->lists()->detach();
+        $campaign->forceDelete();
 
         return redirect()
             ->route('admin-mailer.campaigns.index')

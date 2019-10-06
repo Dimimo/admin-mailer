@@ -14,19 +14,31 @@ return [
         'admins' => ['dmostrey@yahoo.com', 'guido.belger@gmail.com']
     ],
     /*
-     * This is the link to the logo, it CAN'T be an existing image, this link is needed for tracking
+     * This is the link to the logo, it CAN'T be an existing image
+     * This link is needed for tracking and response with 'logo_image'
+     * THIS PICTURE MAY NOT PHYSICALLY EXIST ON THE SERVER
+     * If not, the server image is shown and there will be no tracking
      */
-    'logo_link' => '/img/logo.png',
+    'logo_link' => 'img/logo10.png',
     /*
-     * This is the link to the logo, it SHOULDN'T be an existing image, this link replied by the tracking script
+     * This is the link to the logo, it SHOULD be an existing image
+     * This picture is replied by the tracking script
      */
-    'logo_image' => '/img/mail-logo.png',
+    'logo_image' => 'img/mail-logo.png',
     'middleware' => [
         'web',
         'auth',
         Authorize::class,
     ],
     'email' => [
+        'from' => [
+            'address' => 'contact@puertoparrot.com',
+            'name' => 'Puerto Parrot',
+            ],
+        'reply_to' => [
+            'address' => 'contact@puertoparrot.com',
+            'name' => 'Puerto Parrot',
+        ],
         /*
          * The delay (in milliseconds) is included in running the mass email script
          * Some services like Amazon SES has a limit per minute

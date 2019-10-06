@@ -2,11 +2,14 @@
 
 namespace Dimimo\AdminMailer\Mails;
 
-use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use App\Models\User;
+use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
+use Dimimo\AdminMailer\Models\MailerCustomerModel as Customer;
+use Dimimo\AdminMailer\Models\MailerLogModel as Logger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
 /**
  * Class TestMailToAdmin
@@ -16,9 +19,9 @@ class TestMailToAdmin extends Mailable
 {
     use Queueable, SerializesModels;
     /**
-     * @var string $subject
+     * @var string $title
      */
-    public $subject;
+    public $title;
     /**
      * @var User $user
      */
@@ -26,19 +29,32 @@ class TestMailToAdmin extends Mailable
     /**
      * @var Email $email
      */
+
     public $email;
+
+    /**
+     * @var Customer $customer
+     */
+    public $customer;
+    /**
+     * @var Logger $log
+     */
+    public $log;
 
     /**
      * Create a new message instance.
      *
-     * @param User  $user
+     * @param User $user
      * @param Email $email
+     * @param Logger $log
      */
-    public function __construct(User $user, Email $email)
+    public function __construct(User $user, Email $email, Logger $log)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->email = $email;
-        $this->subject = "Admin test : " . $this->email->title;
+        $this->log = $log;
+        $this->customer = new Customer(['uuid' => Str::uuid()->getHex()]);
+        $this->title = "Admin test : " . $this->email->title;
     }
 
     /**
