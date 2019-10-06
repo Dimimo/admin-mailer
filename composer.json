@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dimimo\\admin-mailer\\": "src/"
+            "Dimimo\\AdminMailer\\": "src/"
         },
         "files": [
             "src/Helpers/functions.php"
