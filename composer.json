@@ -34,22 +34,21 @@
             "Dimimo\\admin-mailer\\": "src/"
         },
         "files": [
-            "src/functions.php",
             "src/Helpers/functions.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Dimimo\\admin-mailer\\Tests\\": "tests"
+            "Dimimo\\AdminMailer\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Dimimo\\admin-mailer\\AdminMailerServiceProvider"
+                "Dimimo\\AdminMailer\\AdminMailerServiceProvider"
             ],
             "aliases": {
-                "admin-mailer": "Dimimo\\admin-mailer\\Facades\\AdminMailerFacade"
+                "admin-mailer": "Dimimo\\AdminMailer\\Facades\\AdminMailerFacade"
             }
         }
     }
