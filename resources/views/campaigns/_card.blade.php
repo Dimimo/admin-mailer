@@ -13,7 +13,12 @@
             {!! $campaign->description !!}
         </div>
         <div class="box-rounded-grey my-3">
-            <h5 class="card-title pt-3">Selected email lists:</h5>
+            <h5 class="card-title pt-3">
+                Selected email lists:
+                <a href="{{ route($prefix.'campaigns.edit', [$campaign->id]) }}" title="Edit the lists">
+                    <small class="float-right"><span class="fas fa-edit"></span> Edit the lists</small>
+                </a>
+            </h5>
             <div class="list-group">
                 @forelse ($campaign->lists as $list)
                     <a href="{{ route($prefix.'lists.show', [$list->id]) }}"
@@ -28,7 +33,12 @@
             </div>
         </div>
         <div class="box-rounded-grey my-3">
-            <h5 class="card-title pt-3">Emails in the campaign</h5>
+            <h5 class="card-title pt-3">
+                Emails in the campaign
+                <a href="{{ route($prefix.'emails.create', [$campaign->id]) }}" class="float-right">
+                    <small><span class="fas fa-plus"></span> Add an email to this Campaign</small>
+                </a>
+            </h5>
             <div class="list-group">
                 @forelse ($campaign->emails as $email)
                     <a href="{{ route($prefix.'emails.show', [$email->id]) }}"

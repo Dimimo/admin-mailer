@@ -6,7 +6,6 @@
 
     <div class="card">
         <div class="card-header bg-light align-center">
-            <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
             <h4>Send the email <strong>{{ $email->title }}</strong></h4>
             <h5 class="text-muted">Part of the <strong><a
                             href="{{ route('admin-mailer.campaigns.show', [$email->campaign->id]) }}">{{ $email->campaign->name }}</a></strong>

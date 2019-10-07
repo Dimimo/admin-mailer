@@ -5,7 +5,6 @@
     @include('admin-mailer::header')
     <div class="card">
         <div class="card-header bg-light align-center">
-            <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
             <h4 class="text-muted">campaigns overview</h4>
         </div>
         <div class="card-body">

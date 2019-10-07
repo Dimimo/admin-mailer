@@ -6,7 +6,6 @@
 
     <div class="card">
         <div class="card-header bg-light align-center">
-            <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
             <h4 class="text-muted">Show all emails in the campaign <strong>{{ $campaign->name }}</strong></h4>
         </div>
         <div class="card-body">
@@ -28,11 +27,14 @@
                     <div class="card-text">
                         {!! $campaign->description !!}
                     </div>
-                    <div class="box-rounded-grey my-3">
-                        <h5 class="card-title pt-3">All customers connected to this Campaign:</h5>
+                        <h5 class="card-title pt-3">
+                            All emails connected to this Campaign:
+                            <a href="{{ route($prefix.'emails.create', [$campaign->id]) }}" class="float-right">
+                                <small><span class="fas fa-plus"></span> Add an email to this Campaign</small>
+                            </a>
+                        </h5>
                         @include('admin-mailer::emails._table')
                     </div>
-                </div>
             </div>
         </div>
     </div>

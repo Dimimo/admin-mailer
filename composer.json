@@ -48,7 +48,7 @@
                 "Dimimo\\AdminMailer\\AdminMailerServiceProvider"
             ],
             "aliases": {
-                "admin-mailer": "Dimimo\\AdminMailer\\Facades\\AdminMailerFacade"
+                "AdminMailer": "Dimimo\\AdminMailer\\Facades\\AdminMailerFacade"
             }
         }
     }

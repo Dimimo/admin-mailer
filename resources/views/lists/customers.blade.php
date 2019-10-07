@@ -6,7 +6,6 @@
 
     <div class="card">
         <div class="card-header bg-light align-center">
-            <h3><span class="far fa-envelope blue"></span> Administration mailer</h3>
             <h4 class="text-muted">
                 Show all customers connect to the <strong>{{ $list->name }}</strong> list
             </h4>

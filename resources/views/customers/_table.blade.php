@@ -6,6 +6,7 @@
         <th>City</th>
         <th>List</th>
         <th><span class="fas fa-at" title="Accepts mail?"></span></th>
+        <th><span class="fas fa-eye" title="Reads mail?"></span></th>
         <th><span class="fas fa-link" title="Has a known website?"></span></th>
         <th></th>
     </tr>
@@ -36,6 +37,13 @@
                     <span class="fas fa-envelope-open green" title="Accepts emails"></span>
                 @else
                     <span class="fas fa-envelope orange" title="Has unsubscribed"></span>
+                @endif
+            </td>
+            <td>
+                @if ($customer->reads_mail)
+                    <span class="fas fa-eye green" title="Reads mail"></span>
+                @else
+                    <span class="fas fa-eye-slash grey" title="Not sure"></span>
                 @endif
             </td>
             <td>
