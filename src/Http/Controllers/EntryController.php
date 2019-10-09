@@ -2,9 +2,7 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
 
 /**
  * Class EntryController
@@ -12,6 +10,6 @@ use Illuminate\Http\Request;
  */
 class EntryController extends Controller
 {
-    //use ValidatesRequests;
+    //
 }
 

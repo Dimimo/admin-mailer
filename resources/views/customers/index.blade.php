@@ -15,7 +15,7 @@
                     <a href="{{ route($prefix.'customers.create') }}"><span class="fas fa-user-plus"></span> Add</a>
                 </div>
             </div>
-            @include('admin-mailer::customers._table')
+            @include('admin-mailer::customers._datatable')
         </div>
     </div>
 

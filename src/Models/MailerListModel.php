@@ -99,7 +99,12 @@ class MailerListModel extends Model
      */
     public function campaigns()
     {
-        return $this->belongsToMany(MailerCampaignModel::class, 'mailer_campaign_mailer_list', 'mailer_campaign_id', 'mailer_list_id');
+        return $this->belongsToMany(
+            MailerCampaignModel::class,
+            'mailer_campaign_mailer_list',
+            'mailer_list_id',
+            'mailer_campaign_id'
+        );
     }
 
     /**

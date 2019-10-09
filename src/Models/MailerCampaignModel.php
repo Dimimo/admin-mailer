@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerEmailModel[] $emails
  * @property-read int|null $emails_count
  * @property-read mixed $all_customers
+ * @property-read mixed $all_customers_id
  * @property-read mixed $uuid_customers
  * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerListModel[] $lists
  * @property-read int|null $lists_count
@@ -121,16 +122,31 @@ class MailerCampaignModel extends Model
     /**
      * Return a collection of all customers in a Campaign
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getAllCustomersAttribute()
+    {
+        $uuids = $this->uuid_customers;
+        if (App()->environment() === '') {
+            return MailerCustomerModel::whereIn('uuid', $uuids)->limit(1)->paginate();
+        }
+
+        return MailerCustomerModel::whereIn('uuid', $uuids)->paginate();
+    }
+
+    /**
+     * Return a collection of all customers (only the customer id) in a Campaign
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllCustomersIdAttribute()
     {
         $uuids = $this->uuid_customers;
         if (App()->environment() === '') {
             return MailerCustomerModel::whereIn('uuid', $uuids)->limit(1)->get();
         }
 
-        return MailerCustomerModel::whereIn('uuid', $uuids)->get();
+        return MailerCustomerModel::whereIn('uuid', $uuids)->pluck('id');
     }
 
     /**

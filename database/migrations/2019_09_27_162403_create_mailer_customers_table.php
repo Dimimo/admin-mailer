@@ -23,7 +23,7 @@ class CreateMailerCustomersTable extends Migration
             $table->boolean('reads_mail')->default(false)->index();
             $table->string('url')->nullable();
             $table->string('wikipedia')->nullable();
-            $table->string('faccebook')->nullable();
+            $table->string('facebook')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('site_id')->nullable();
             $table->unsignedInteger('service_id')->nullable();

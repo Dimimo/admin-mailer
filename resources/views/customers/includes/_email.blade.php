@@ -1,0 +1,1 @@
+<span title="{{ $customer->email }}">{{ Illuminate\Support\Str::limit($customer->email, 20) }}</span>

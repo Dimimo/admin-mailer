@@ -3,6 +3,7 @@
 namespace Dimimo\AdminMailer\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Customer;
 use Dimimo\AdminMailer\Http\Requests\ListRequest;
 use Dimimo\AdminMailer\Models\MailerListModel as MailerList;
 use Illuminate\Database\Eloquent\Builder;
@@ -134,11 +135,10 @@ class ListController extends EntryController
      */
     public function customers($id) {
         $list = MailerList::findOrFail($id);
-        $customers = $list
-            ->customers()
-            ->orderBy('accepts_mail', 'desc')
+        $customers = $list->customers()
+        ->orderBy('accepts_mail', 'desc')
             ->orderBy('name')
-            ->get();
+            ->paginate();
 
         return view('admin-mailer::lists.customers', compact('list', 'customers'));
     }

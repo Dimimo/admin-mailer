@@ -35,7 +35,7 @@ class MailerController extends EntryController
                 ->route('admin-mailer.emails.index')
                 ->with('warning', "The email <strong>{$email->title}</strong> can't be handled because it has already been send to the customers!");
         }
-        $customers = $email->campaign->all_customers->pluck('id');
+        $customers = $email->campaign->all_customers_id;
 
         return view('admin-mailer::mailer.send', compact('email', 'customers'));
     }

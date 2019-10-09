@@ -1,3 +1,5 @@
+{!! $customers->links() !!}
+
 <table class="table table-hover">
     <thead>
     <tr>
@@ -19,8 +21,12 @@
                     {{ Illuminate\Support\Str::limit($customer->name, 25) }}
                 </a>
             </td>
-            <td title="{{ $customer->email }}">{{ Illuminate\Support\Str::limit($customer->email, 30) }}</td>
-            <td>{{ $customer->city ? $customer->city->name : null }}</td>
+            <td title="{{ $customer->email }}">
+                {{ Illuminate\Support\Str::limit($customer->email, 25) }}
+            </td>
+            <td title="{{ $customer->city ? $customer->city->name : null }}">
+                {{ $customer->city ? Illuminate\Support\Str::limit($customer->city->name, 15) : null }}
+            </td>
             <td>
                 @if ($customer->list)
                     <span class="fas fa-check-circle green"></span>
@@ -72,3 +78,5 @@
     @endforeach
     </tbody>
 </table>
+
+{!! $customers->links() !!}

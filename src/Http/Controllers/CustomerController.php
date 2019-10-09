@@ -7,6 +7,8 @@ use Dimimo\AdminMailer\Http\Requests\CustomerRequest;
 use Dimimo\AdminMailer\Http\Traits\ListTrait;
 use Dimimo\AdminMailer\Models\MailerCustomerModel as MailerCustomer;
 use Illuminate\Support\Str;
+use Freshbitsweb\Laratables\Laratables;
+use Dimimo\AdminMailer\Models\LaratablesCustomers;
 
 /**
  * Class CustomerController
@@ -25,9 +27,13 @@ class CustomerController extends EntryController
         $customers = MailerCustomer::with('list')
             ->orderBy('accepts_mail', 'desc')
             ->orderBy('name')
-            ->get();
+            ->paginate(15);
 
         return view('admin-mailer::customers.index', compact('customers'));
+    }
+
+    public function tableIndex() {
+        return Laratables::recordsOf(LaratablesCustomers::class);
     }
 
     /**

@@ -17,6 +17,8 @@ Route::name($prefix)->group(function() {
         Route::get('{id}/edit', 'CustomerController@edit')->name('edit');
         Route::put('{id}/update', 'CustomerController@update')->name('update');
         Route::delete('{id}/destroy', 'CustomerController@destroy')->name('destroy');
+        //datatable
+        Route::get('table/index', 'CustomerController@tableIndex')->name('table.index');
     });
 
     Route::prefix('lists')->name('lists.')->group(function() {
