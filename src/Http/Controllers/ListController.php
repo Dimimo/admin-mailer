@@ -135,12 +135,8 @@ class ListController extends EntryController
      */
     public function customers($id) {
         $list = MailerList::findOrFail($id);
-        $customers = $list->customers()
-        ->orderBy('accepts_mail', 'desc')
-            ->orderBy('name')
-            ->paginate();
 
-        return view('admin-mailer::lists.customers', compact('list', 'customers'));
+        return view('admin-mailer::lists.customers', compact('list'));
     }
 
     public function campaigns($id) {

@@ -1,25 +1,15 @@
 <?php
 
+
 namespace Dimimo\AdminMailer\Models;
 
-class LaratablesCustomers extends MailerCustomerModel {
-    /**
-     * Join roles to base customers table.
-     * Assumes roles -> users is a one-to-many relationship
-     *
-     * @param \Illuminate\Database\Eloquent\Builder
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    /*public static function laratablesQueryConditions($q)
-    {
-        return $q->select(['name as customer_name'])
-            ->join('cities', 'cities.id', '=', 'mailer_customers.city_id')
-            ->select(['cities.name as city_name']);
-    }*/
-
-    /*public static function laratablesCustomCustomerName($customer) {
-        return $customer->name;
-    }*/
+/**
+ * Class LaratablesCustomers
+ * @package Dimimo\AdminMailer\Models
+ */
+class LaratablesCustomers extends MailerCustomerModel
+{
+    //https://github.com/freshbitsweb/laratables
 
     /**
      * Returns the action column html for datatables.
@@ -37,7 +27,7 @@ class LaratablesCustomers extends MailerCustomerModel {
      * Returns the action column html for datatables.
      *
      * @param MailerCustomerModel $customer
-     * @return string|null
+     * @return string
      * @throws \Throwable
      */
     public static function laratablesEmail($customer)
@@ -69,20 +59,8 @@ class LaratablesCustomers extends MailerCustomerModel {
         if ($customer->city) {
             return $customer->city->name;
         }
-        return null;
+        return '';
     }
-
-    /**
-     * Eager load media items of the role for displaying in the datatables.
-     *
-     * @return callable
-     */
-    /*public static function laratablesCityRelationQuery()
-    {
-        return function ($query) {
-            $query->with('city');
-        };
-    }*/
 
     /**
      * Returns the action column html for datatables.
@@ -133,30 +111,6 @@ class LaratablesCustomers extends MailerCustomerModel {
     }
 
     /**
-     * Returns the action column html for datatables.
-     *
-     * @param MailerCustomerModel $customer
-     * @return string
-     * @throws \Throwable
-     */
-    public static function laratablesCustomUrl($customer)
-    {
-        return view('admin-mailer::customers.includes._url', compact('customer'))->render();
-    }
-
-    /**
-     * Returns the data attribute for row id of the user.
-     *
-     * @return array
-     */
-    /*public function laratablesRowData()
-    {
-        return [
-            'id' => $this->id,
-        ];
-    }*/
-
-    /**
      * first_name column should be used for sorting when name column is selected in Datatables.
      *
      * @return string
@@ -171,8 +125,8 @@ class LaratablesCustomers extends MailerCustomerModel {
      *
      * @return array
      */
-    /*public static function laratablesAdditionalColumns()
+    public static function laratablesAdditionalColumns()
     {
-        return [];
-    }*/
+        return ['city_id'];
+    }
 }

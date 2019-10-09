@@ -21,7 +21,7 @@
                     <div class="card-text">
                         {!! $list->description !!}
                     </div>
-                    <h5 class="card-title pt-3">All customers connected to this Campaign:</h5>
+                    <h5 class="card-title pt-3">All customers connected to this List:</h5>
                     @include('admin-mailer::customers._datatable')
                 </div>
             </div>

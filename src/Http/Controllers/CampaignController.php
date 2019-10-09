@@ -166,9 +166,8 @@ class CampaignController extends EntryController
      */
     public function customers($id) {
         $campaign = Campaign::findOrFail($id);
-        $customers = $campaign->all_customers;
 
-        return view('admin-mailer::campaigns.customers', compact('campaign', 'customers'));
+        return view('admin-mailer::campaigns.customers', compact('campaign'));
     }
 
     /**

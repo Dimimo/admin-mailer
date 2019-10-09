@@ -24,12 +24,7 @@ class CustomerController extends EntryController
      */
     public function index()
     {
-        $customers = MailerCustomer::with('list')
-            ->orderBy('accepts_mail', 'desc')
-            ->orderBy('name')
-            ->paginate(15);
-
-        return view('admin-mailer::customers.index', compact('customers'));
+        return view('admin-mailer::customers.index');
     }
 
     public function tableIndex() {
@@ -76,7 +71,7 @@ class CustomerController extends EntryController
      */
     public function show($id)
     {
-        $customer = MailerCustomer::findOrFail($id);
+        $customer = MailerCustomer::with('city')->findOrFail($id);
 
         return view('admin-mailer::customers.show', compact('customer'));
     }
@@ -129,6 +124,8 @@ class CustomerController extends EntryController
         $customer = MailerCustomer::findOrFail($id);
         $customer->delete();
         
-        return redirect()->route('admin-mailer.customer.index')->with('success', "The customer <strong>{$customer->name}</strong> has been deleted");
+        return redirect()
+            ->route('admin-mailer.customer.index')
+            ->with('success', "The customer <strong>{$customer->name}</strong> has been deleted");
     }
 }

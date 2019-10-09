@@ -1,4 +1,4 @@
-<div class="row justify-content-end">
+<div class="row justify-content-end text-nowrap">
     <a href="{{ route($prefix.'customers.edit', [$customer->id]) }}"
        class="btn btn-link col-auto green">
         <span class="fas fa-edit"></span>
