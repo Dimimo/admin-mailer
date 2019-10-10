@@ -11,6 +11,13 @@ class LaratablesCustomers extends MailerCustomerModel
 {
     //https://github.com/freshbitsweb/laratables
 
+    public static function laratablesQueryConditions($query) {
+        if (request('mailer_list_id')) {
+            return $query->whereIn('mailer_list_id', request('mailer_list_id'));
+        }
+        return $query;
+    }
+
     /**
      * Returns the action column html for datatables.
      *

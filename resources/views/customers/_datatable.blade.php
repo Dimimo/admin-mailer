@@ -1,4 +1,3 @@
-
 <table id="customers_table" class="table table-hover">
     <thead>
     <tr>
@@ -21,21 +20,27 @@
 @push('js')
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('table#customers_table').DataTable({
                 serverSide: true,
                 processing: true,
                 responsive: true,
-                ajax: "{{ route('admin-mailer.customers.table.index') }}",
+                cache: false,
+                ajax: {
+                    "url": "{{ route('admin-mailer.customers.table.index') }}",
+                    @if (isset($query))
+                    "data": {!! $query !!}
+                    @endif
+                },
                 columns: [
-                    { name: 'name' },
-                    { name: 'email' },
-                    { name: 'city_name', orderable: false, searchable: false },
-                    { name: 'list.name', orderable: false, searchable: false },
-                    { name: 'accepts_mail', searchable: false },
-                    { name: 'reads_mail', searchable: false },
-                    { name: 'url', orderable: false, searchable: false },
-                    { name: 'action', orderable: false, searchable: false }
+                    {name: 'name'},
+                    {name: 'email'},
+                    {name: 'city_name', orderable: false, searchable: false},
+                    {name: 'list.name', orderable: false, searchable: false},
+                    {name: 'accepts_mail', searchable: false},
+                    {name: 'reads_mail', searchable: false},
+                    {name: 'url', orderable: false, searchable: false},
+                    {name: 'action', orderable: false, searchable: false}
                 ]
             });
         });

@@ -135,8 +135,10 @@ class ListController extends EntryController
      */
     public function customers($id) {
         $list = MailerList::findOrFail($id);
+        $query = json_encode(['mailer_list_id' => [$id]]);
 
-        return view('admin-mailer::lists.customers', compact('list'));
+
+        return view('admin-mailer::lists.customers', compact('list', 'query'));
     }
 
     public function campaigns($id) {

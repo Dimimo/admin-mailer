@@ -166,8 +166,9 @@ class CampaignController extends EntryController
      */
     public function customers($id) {
         $campaign = Campaign::findOrFail($id);
+        $query = json_encode(['mailer_list_id' => $campaign->lists()->get()->pluck('id')->toArray()]);
 
-        return view('admin-mailer::campaigns.customers', compact('campaign'));
+        return view('admin-mailer::campaigns.customers', compact('campaign', 'query'));
     }
 
     /**
