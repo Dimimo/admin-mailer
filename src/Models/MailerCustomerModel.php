@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Dimimo\AdminMailer\Models\MailerCustomerModel
  *
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property string $email
  * @property int|null $mailer_list_id
@@ -23,7 +24,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $wikipedia
  * @property string|null $facebook
  * @property int|null $user_id
- * @property string $uuid
  * @property int|null $site_id
  * @property int|null $service_id
  * @property int|null $city_id

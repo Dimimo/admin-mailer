@@ -8,10 +8,10 @@
 
 namespace Dimimo\AdminMailer\Listeners;
 
+use Dimimo\AdminMailer\Mails\MailToCustomer;
 use Dimimo\AdminMailer\Models\MailerLogModel as Log;
 use Dimimo\AdminMailer\AdminMailer;
 use Dimimo\AdminMailer\Events\SendMail;
-use Dimimo\AdminMailer\Mails\MailToCustomer;
 use Illuminate\Support\Str;
 use Mail;
 
@@ -46,7 +46,10 @@ class SendCustomerMail
     {
         $event = AdminMailer::transformEmail($event);
         $this->newLogEntry($event);
-        Mail::to($event->customer)->send(new MailToCustomer($event->customer, $event->email, $this->log));
+        if (App()->environment() === 'production') {
+            Mail::to($event->customer)->send(new MailToCustomer($event->customer, $event->email, $this->log));
+        }
+        $this->log->update(['is_send' => '1']);
     }
 
     /**
@@ -58,7 +61,8 @@ class SendCustomerMail
         $this->log = new Log([
             'mailer_customer_id' => $event->customer->id,
             'mailer_email_id' => $event->email->id,
-            'uuid' => Str::uuid()->getHex()]);
+            'uuid' => Str::uuid()->getHex(),
+            'is_send' => '0']);
         $this->log->save();
     }
 

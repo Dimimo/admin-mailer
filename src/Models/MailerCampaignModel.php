@@ -18,9 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerEmailModel[] $emails
  * @property-read int|null $emails_count
- * @property-read mixed $all_customers
- * @property-read mixed $all_customers_id
- * @property-read mixed $uuid_customers
+ * @property-read \Illuminate\Contracts\Pagination\LengthAwarePaginator $all_customers
+ * @property-read \Illuminate\Support\Collection $all_customers_id
+ * @property-read \Illuminate\Support\Collection $uuid_customers
  * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerListModel[] $lists
  * @property-read int|null $lists_count
  * @property-read \App\Models\User $owner
@@ -127,9 +127,6 @@ class MailerCampaignModel extends Model
     public function getAllCustomersAttribute()
     {
         $uuids = $this->uuid_customers;
-        if (App()->environment() === '') {
-            return MailerCustomerModel::whereIn('uuid', $uuids)->limit(1)->paginate();
-        }
 
         return MailerCustomerModel::whereIn('uuid', $uuids)->paginate();
     }
@@ -142,9 +139,6 @@ class MailerCampaignModel extends Model
     public function getAllCustomersIdAttribute()
     {
         $uuids = $this->uuid_customers;
-        if (App()->environment() === '') {
-            return MailerCustomerModel::whereIn('uuid', $uuids)->limit(1)->get();
-        }
 
         return MailerCustomerModel::whereIn('uuid', $uuids)->pluck('id');
     }

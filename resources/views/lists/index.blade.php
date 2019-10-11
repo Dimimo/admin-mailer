@@ -27,7 +27,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($lists as $list)
+                @forelse ($lists as $list)
                     <tr>
                         <td><a href="{{ route('admin-mailer.lists.show', [$list->id]) }}">{{ $list->name }}</a></td>
                         <td>{{ $list->city ? $list->city->name : 'nationwide' }}</td>
@@ -60,7 +60,16 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td rowspan="6" class="bigger-120 red">
+                            No Lists yet
+                            <a href="{{ route($prefix.'lists.create') }}">
+                                <span class="fas fa-user-plus"></span> Create one
+                            </a>
+                        </td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

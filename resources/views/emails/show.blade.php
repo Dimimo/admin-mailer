@@ -33,6 +33,7 @@
                         <a href="{{ route($prefix.'mailer.send', [$email->id]) }}">
                             <span class="fab fa-themeisle green"></span> Send this email to the customers
                         </a>
+                        <div class="smaller-80">(don't worry, you still have to confirm this on the next page)</div>
                     </div>
                 </div>
             @else

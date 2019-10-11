@@ -98,11 +98,19 @@ class CampaignController extends EntryController
     {
         $campaign = Campaign::findOrFail($id);
         $campaign->update($request->validated());
-        $this->_syncLists($campaign);
+        //if emails has been send, the connected lists can not be changed anymore
+        $send_emails_count = $campaign->emails()->where('draft', '=', '0')->count();
+        if ($send_emails_count == 0) {
+            $message = '';
+            $this->_syncLists($campaign);
+        } else {
+            $message = '.<br> Lists could not be updated because ' . $send_emails_count . ' email(s) has been send already.<br>';
+            $message .= 'If you would like to change the lists to this campaign, you will have to create a new campaign.';
+        }
 
         return redirect()
             ->route('admin-mailer.campaigns.show', [$campaign->id])
-            ->with('success', $campaign->name . " is updated");
+            ->with('success', $campaign->name . " is updated" . $message);
     }
 
     /**
@@ -149,14 +157,15 @@ class CampaignController extends EntryController
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function emails($id) {
-        $campaign = Campaign::with(['emails' => function(HasMany $q) {
+    public function emails($id)
+    {
+        $campaign = Campaign::with(['emails' => function (HasMany $q) {
             return $q->orderBy('updated_at', 'asc');
         }])->findOrFail($id);
         $emails = $campaign->emails;
 
         return view('admin-mailer::campaigns.emails', compact('campaign', 'emails'));
-}
+    }
 
     /**
      * Show all customers connected to a Campaign
@@ -164,7 +173,8 @@ class CampaignController extends EntryController
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function customers($id) {
+    public function customers($id)
+    {
         $campaign = Campaign::findOrFail($id);
         $query = json_encode(['mailer_list_id' => $campaign->lists()->get()->pluck('id')->toArray()]);
 

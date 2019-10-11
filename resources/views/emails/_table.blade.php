@@ -29,13 +29,14 @@
                 @endif
             </td>
             <td>
-                @if($email->draft)
+                @if($email->completed())
+                    {{ $email->send_datetime ? $email->send_datetime->format('d/m/y H:i') : '' }}
+                @else
                     <a href="{{ route($prefix.'mailer.send', [$email->id]) }}">
                         Proceed...
                     </a>
-                @else
-                    {{ $email->send_datetime ? $email->send_datetime->format('d/m/y H:i') : '' }}</td>
-            @endif
+                @endif
+            </td>
             <td>
                 <a href="{{ route('admin-mailer.campaigns.show', [$email->campaign->id]) }}"
                    title="{{ $email->campaign->name }}">

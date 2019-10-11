@@ -3,6 +3,7 @@
 namespace Dimimo\AdminMailer\Http\Controllers;
 
 use Dimimo\AdminMailer\Models\MailerLogModel as Logging;
+use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Intervention\Image\ImageManager;
@@ -37,78 +38,42 @@ class LogController extends EntryController
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of all emails that have been send out.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('admin-mailer::logs.index');
+        $emails = Email::whereDraft('0')->orderBy('send_datetime', 'desc')->get();
+
+        return view('admin-mailer::logs.index', compact('emails'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param int $email_id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function read($email_id)
     {
-        //
+        $email = Email::findOrFail($email_id);
+        $logs = $email->logs()->whereNotNull('read_datetime')->get();
+
+        return view('admin-mailer::logs.read', compact('email', 'logs'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param int $email_id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function unsubscribed($email_id)
     {
-        //
-    }
+        $email = Email::findOrFail($email_id);
+        $customers = $email->unsubscribed->paginate();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('admin-mailer::logs.unsubscribed', compact('email', 'customers'));
     }
 }

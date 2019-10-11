@@ -24,6 +24,10 @@
                     Send this email to {{ count($customers) }} customers.
                 </h3>
                 <h4>After sending, just relax, enjoy the show and <span class="red">DON'T refresh the page</span></h4>
+                <h5>
+                    If this process was interrupted before, it could be the process goes very fast at first. It also
+                    means that the emails has been send out already. Untill the process slows down again.
+                </h5>
                 <div class="box-rounded-info my-5 align-left">
                     <strong>Title:</strong> {{ $email->title }}
                     <div class="pt-2"><strong>Message:</strong><br>
@@ -75,12 +79,17 @@
             ajaxRecursive();
         });
 
-
         function ajaxRecursive() {
             if ($customers.length === 0) {
                 $('#ol_title').addClass('dark-green')
                     .html('<span class="fas fa-check-circle green"></span> All emails has been send!');
                 $('button#start_sending').text('... sending emails DONE ...');
+                $('ol#ol_list').append(
+                    '<li class="list-group-item">'
+                    + '<span class="fas fa-check-circle green"></span> '
+                    + '<span class="bigger-140 green">It\'s done! All messages have been send!</span>'
+                    + '</li>'
+                );
                 return;
             }
             let $id = $customers.shift();
@@ -91,16 +100,31 @@
                 data: {'email_id': $email_id, 'id': $id, '_token': token},
                 dataType: 'json',
                 success: function (resp) {
+                    const $ol = $('ol#ol_list');
                     $counter++;
-                    $('ol#ol_list').append(
-                        '<li class="list-group-item">'
-                        + '<span class="badge badge-primary badge-pill">'
-                        + $counter
-                        + '</span> '
-                        + '<span class="fas fa-check-circle green"></span> '
-                        + resp.message
-                        + '</li>'
-                    );
+                    if (resp.status === 'warning') {
+                        $ol.append(
+                            '<li class="list-group-item bg-light">'
+                            + '<span class="badge badge-primary badge-pill">'
+                            + $counter
+                            + '</span> '
+                            + '<span class="fas fa-exclamation-circle green"></span> '
+                            + resp.message
+                            + '</li>'
+                        );
+                    }
+                    else {
+                        $ol.append(
+                            '<li class="list-group-item">'
+                            + '<span class="badge badge-primary badge-pill">'
+                            + $counter
+                            + '</span> '
+                            + '<span class="fas fa-check-circle green"></span> '
+                            + resp.message
+                            + '</li>'
+                        );
+                    }
+
                     ajaxRecursive();
                 }
             });

@@ -1,4 +1,4 @@
-<table class="table table-hover">
+@<table class="table table-hover">
     <thead>
     <tr>
         <th>Updated</th>
@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($campaigns as $campaign)
+    @forelse ($campaigns as $campaign)
         <tr>
             <td>{{ $campaign->updated_at->format('d/m/Y') }}</td>
             <td>
@@ -62,6 +62,15 @@
                 </div>
             </td>
         </tr>
-    @endforeach
+        @empty
+        <tr>
+            <td rowspan="8" class="bigger-120 red">
+                No Campaigns yet
+                <a href="{{ route($prefix.'campaigns.create') }}">
+                    <span class="fas fa-user-plus"></span> Create one
+                </a>
+            </td>
+        </tr>
+    @endforelse
     </tbody>
 </table>

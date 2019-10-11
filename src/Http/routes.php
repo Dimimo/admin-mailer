@@ -67,11 +67,7 @@ Route::name($prefix)->group(function() {
 
     Route::prefix('logs')->name('logs.')->group(function() {
         Route::get('/', 'LogController@index')->name('index'); //name = admin-mailer.logs.index
-        Route::get('show/{id}', 'LogController@show')->name('show');
-        Route::get('create', 'LogController@create')->name('create');
-        Route::post('store', 'LogController@store')->name('store');
-        Route::get('{id}/edit', 'LogController@edit')->name('edit');
-        Route::put('{id}/update', 'LogController@update')->name('update');
-        Route::delete('{id}/destroy', 'LogController@destroy')->name('destroy');
+        Route::get('{email_id}/read', 'LogController@read')->name('read');
+        Route::get('{email_id}/unsubscribed', 'LogController@unsubscribed')->name('unsubscribed');
     });
 });

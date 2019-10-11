@@ -2,8 +2,9 @@
 
 namespace Dimimo\AdminMailer\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
  * Dimimo\AdminMailer\Models\MailerLogModel
@@ -12,17 +13,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $uuid
  * @property int $mailer_customer_id
  * @property int $mailer_email_id
- * @property string $read_datetime
+ * @property \Illuminate\Support\Carbon|null $read_datetime
+ * @property int|null $is_send
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Dimimo\AdminMailer\Models\MailerCustomerModel $customer
  * @property-read \Dimimo\AdminMailer\Models\MailerEmailModel $email
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel newQuery()
- * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerLogModel onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel opened()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel query()
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereIsSend($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereMailerCustomerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereMailerEmailId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereReadDatetime($value)
@@ -38,10 +41,19 @@ class MailerLogModel extends Model
      * @var string
      */
     protected $table = 'mailer_logs';
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'read_datetime',
+    ];
     /**
      * @var array
      */
-    protected $casts = ['real_datetime' => 'datetime'];
+    protected $casts = ['read_datetime' => 'datetime'];
     /**
      * The attributes that aren't mass assignable.
      *
@@ -54,6 +66,15 @@ class MailerLogModel extends Model
      * @var array
      */
     protected $hidden = [];
+
+    /**
+     * @param $query
+     * @return Builder
+     */
+    public function scopeOpened($query) {
+        /** @var Builder $query*/
+        return $query->whereNotNull('read_datetime');
+    }
 
     /**
      * a log belongsTo a customer

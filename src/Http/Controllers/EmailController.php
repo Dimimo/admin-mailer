@@ -7,7 +7,9 @@ use Auth;
 use Dimimo\AdminMailer\Events\TestMail;
 use Dimimo\AdminMailer\Http\Requests\EmailRequest;
 use Dimimo\AdminMailer\Models\MailerCampaignModel as Campaign;
+use Dimimo\AdminMailer\Models\MailerCampaignModel;
 use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
+use Dimimo\AdminMailer\Models\MailerLogModel;
 
 /**
  * Class EmailController
@@ -111,6 +113,11 @@ class EmailController extends EntryController
     public function update(EmailRequest $request, $id)
     {
         $email = Email::findOrFail($id);
+        if ($email->send_datetime) {
+            return redirect()
+                ->back()
+                ->with('warning', "The email <strong>{$email->title}</strong> can't be deleted because it has been send out already!");
+        }
         $email->update($request->validated());
 
         return redirect()
