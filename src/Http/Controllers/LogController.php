@@ -1,15 +1,22 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use Dimimo\AdminMailer\Models\MailerLogModel as Logging;
 use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
+use Dimimo\AdminMailer\Models\MailerLogModel as Logging;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Intervention\Image\ImageManager;
 
 /**
  * Class LogController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class LogController extends EntryController
@@ -18,7 +25,8 @@ class LogController extends EntryController
      * Handles the email top logo
      * If a customer opens the email with view images, this event is logged
      *
-     * @param Request $request
+     * @param Request  $request
+     *
      * @return mixed
      */
     public function logo(Request $request)
@@ -52,7 +60,8 @@ class LogController extends EntryController
     /**
      * Show the form for creating a new resource.
      *
-     * @param int $email_id
+     * @param int  $email_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function read($email_id)
@@ -66,7 +75,8 @@ class LogController extends EntryController
     /**
      * Store a newly created resource in storage.
      *
-     * @param int $email_id
+     * @param int  $email_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function unsubscribed($email_id)

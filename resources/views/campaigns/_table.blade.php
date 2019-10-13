@@ -62,7 +62,7 @@
                 </div>
             </td>
         </tr>
-        @empty
+    @empty
         <tr>
             <td rowspan="8" class="bigger-120 red">
                 No Campaigns yet

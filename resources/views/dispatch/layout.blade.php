@@ -125,7 +125,8 @@
                         <table cellspacing="0" cellpadding="0" bgcolor="#ffffff" width="100%">
                             <tr>
                                 <td class="title-text">
-                                    <p class="logo" style="color: white; background-color: #1963aa; padding: 5px; border-radius: 5px;"
+                                    <p class="logo"
+                                       style="color: white; background-color: #1963aa; padding: 5px; border-radius: 5px;"
                                        align="center">
                                         <a href="https://www.puertoparrot.com">
                                             <img src="{{ url(config('admin-mailer.logo_link')) }}?u={{ $log->uuid }}"

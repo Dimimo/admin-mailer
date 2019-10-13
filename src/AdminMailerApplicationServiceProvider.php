@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer;
 
@@ -26,7 +32,8 @@ class AdminMailerApplicationServiceProvider extends ServiceProvider
     {
         $this->gate();
 
-        AdminMailer::auth(function ($request) {
+        AdminMailer::auth(function ($request)
+        {
             return app()->environment('local') ||
                 Gate::check('admin-mailer', [$request->user()]);
         });
@@ -41,7 +48,8 @@ class AdminMailerApplicationServiceProvider extends ServiceProvider
      */
     protected function gate()
     {
-        Gate::define('admin-mailer', function ($user) {
+        Gate::define('admin-mailer', function ($user)
+        {
             return in_array($user->email, config('admin-mailer.gate.admins'));
         });
     }

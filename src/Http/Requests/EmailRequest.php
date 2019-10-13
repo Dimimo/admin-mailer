@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Requests;
 
@@ -6,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ListRequest
+ *
  * @package Dimimo\AdminMailer\Http\Requests
  */
 class EmailRequest extends FormRequest
@@ -20,8 +27,8 @@ class EmailRequest extends FormRequest
         //dd($this->request);
         return [
             'mailer_campaign_id' => 'required',
-            'title' => 'required|min:4|max:80',
-            'body' => 'required|min:10|max:10000',
+            'title'              => 'required|min:4|max:80',
+            'body'               => 'required|min:10|max:10000',
         ];
     }
 
@@ -33,12 +40,12 @@ class EmailRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Please enter a title',
-            'title.min' => 'The title needs to be at least 4 chars long',
-            'title.max' => 'Please shorten the title (max 80 chars)',
-            'body.required' => 'Please create the email content, we can\'t send an empty email',
-            'body.min' => 'The email content is too short, it should be minimum 50 characters long',
-            'body.max' => 'Shorten the email, the maximum aloud input is 10000 chars, including HTML tags',
+            'title.required'              => 'Please enter a title',
+            'title.min'                   => 'The title needs to be at least 4 chars long',
+            'title.max'                   => 'Please shorten the title (max 80 chars)',
+            'body.required'               => 'Please create the email content, we can\'t send an empty email',
+            'body.min'                    => 'The email content is too short, it should be minimum 50 characters long',
+            'body.max'                    => 'Shorten the email, the maximum aloud input is 10000 chars, including HTML tags',
             'mailer_campaign_id.required' => 'A Campaign has to be selected',
         ];
     }

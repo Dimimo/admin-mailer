@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * Class MailerController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class MailerController extends EntryController
@@ -26,12 +27,14 @@ class MailerController extends EntryController
      * This page also beholds all the jquery that handles the request
      *
      * @param $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function send($id)
     {
         $email = Email::with('campaign')->findOrFail($id);
-        if ($email->completed()) {
+        if ($email->completed())
+        {
             return redirect()
                 ->route('admin-mailer.emails.index')
                 ->with('warning', "The email <strong>{$email->title}</strong> can't be handled because it has already been send to the customers!");
@@ -47,7 +50,8 @@ class MailerController extends EntryController
      * These requests are looped in Jquery and NOT queued
      * As the mail is send, the tracker (mailer_logs) values are set
      *
-     * @param Request $request
+     * @param Request  $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function sending(Request $request)
@@ -56,40 +60,47 @@ class MailerController extends EntryController
         $customer = Customer::findOrFail($request->get('id'));
         //normally, this situation is not possible, but check anyway just in case
         //We don't want to send an email to a customer that has unsubscribed
-        if (!$customer->accepts_mail) {
+        if (!$customer->accepts_mail)
+        {
             return response()->json(['status' => 'warning', 'message' => "The customer {$customer->name} doesn't accept email"]);
         }
-        if ($email->draft) {
+        if ($email->draft)
+        {
             $email->update(['draft' => 0, 'send_datetime' => Carbon::now()]);
         }
-        if ($this->checkEntry($email, $customer)) {
+        if ($this->checkEntry($email, $customer))
+        {
             return response()
                 ->json([
-                    'status' => 'warning',
+                    'status'  => 'warning',
                     'message' => "The email to <strong>{$customer->name}</strong> was already send. All is ok. proceeding..."
                 ]);
         }
         event(new SendMail($customer, $email));
         @usleep(config('admin-mailer.email.delay') * 1000);
-        if ($customer->city) {
+        if ($customer->city)
+        {
             $message = ' in <strong>' . $customer->city->name . '</strong>';
-        }
-        else {
+        } else
+        {
             $message = '';
         }
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'message' => "Send to <strong>{$customer->name}</strong>{$message}"
         ]);
     }
 
     /**
      * Check if the entry already exists and has been send.
-     * @param Email $email
-     * @param Customer $customer
+     *
+     * @param Email     $email
+     * @param Customer  $customer
+     *
      * @return integer
      */
-    private function checkEntry($email, $customer) {
+    private function checkEntry($email, $customer)
+    {
         return Log::where([
             ['mailer_customer_id', '=', $customer->id],
             ['mailer_email_id', '=', $email->id],

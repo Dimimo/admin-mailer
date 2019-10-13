@@ -14,11 +14,11 @@
 </table>
 
 @push('css')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/admin-mailer/css/datatables.min.css">
 @endpush
 
 @push('js')
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
+    <script type="text/javascript" src="/vendor/admin-mailer/js/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('table#customers_table').DataTable({

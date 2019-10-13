@@ -8,10 +8,10 @@
 
 namespace Dimimo\AdminMailer\Listeners;
 
-use Dimimo\AdminMailer\Mails\MailToCustomer;
-use Dimimo\AdminMailer\Models\MailerLogModel as Log;
 use Dimimo\AdminMailer\AdminMailer;
 use Dimimo\AdminMailer\Events\SendMail;
+use Dimimo\AdminMailer\Mails\MailToCustomer;
+use Dimimo\AdminMailer\Models\MailerLogModel as Log;
 use Illuminate\Support\Str;
 use Mail;
 
@@ -26,6 +26,7 @@ class SendCustomerMail
      * @var Log $log
      */
     public $log;
+
     /**
      * Create the event listener.
      *
@@ -38,7 +39,7 @@ class SendCustomerMail
     /**
      * Handle the event.
      *
-     * @param  SendMail $event
+     * @param SendMail  $event
      *
      * @return void
      */
@@ -46,7 +47,8 @@ class SendCustomerMail
     {
         $event = AdminMailer::transformEmail($event);
         $this->newLogEntry($event);
-        if (App()->environment() === 'production') {
+        if (App()->environment() === 'production')
+        {
             Mail::to($event->customer)->send(new MailToCustomer($event->customer, $event->email, $this->log));
         }
         $this->log->update(['is_send' => '1']);
@@ -55,14 +57,15 @@ class SendCustomerMail
     /**
      * Create a log input in the mailer_logs table
      *
-     * @param SendMail $event
+     * @param SendMail  $event
      */
-    private function newLogEntry(SendMail $event) {
+    private function newLogEntry(SendMail $event)
+    {
         $this->log = new Log([
             'mailer_customer_id' => $event->customer->id,
-            'mailer_email_id' => $event->email->id,
-            'uuid' => Str::uuid()->getHex(),
-            'is_send' => '0']);
+            'mailer_email_id'    => $event->email->id,
+            'uuid'               => Str::uuid()->getHex(),
+            'is_send'            => '0']);
         $this->log->save();
     }
 

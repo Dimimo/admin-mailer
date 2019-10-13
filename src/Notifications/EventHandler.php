@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Notifications;
 
@@ -11,7 +17,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class EventHandler
 {
-    /** @var \Illuminate\Contracts\Config\Repository */
+    /** @var Repository */
     protected $config;
 
     public function __construct(Repository $config)

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 /**
  * Class TestCase
+ *
  * @package Dimimo\AdminMailer\Tests
  */
 abstract class TestCase extends BaseTestCase

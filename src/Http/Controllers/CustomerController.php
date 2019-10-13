@@ -1,22 +1,30 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
 use App\Models\City;
 use Dimimo\AdminMailer\Http\Requests\CustomerRequest;
 use Dimimo\AdminMailer\Http\Traits\ListTrait;
-use Dimimo\AdminMailer\Models\MailerCustomerModel as MailerCustomer;
-use Illuminate\Support\Str;
-use Freshbitsweb\Laratables\Laratables;
 use Dimimo\AdminMailer\Models\LaratablesCustomers;
+use Dimimo\AdminMailer\Models\MailerCustomerModel as MailerCustomer;
+use Freshbitsweb\Laratables\Laratables;
+use Illuminate\Support\Str;
 
 /**
  * Class CustomerController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class CustomerController extends EntryController
 {
     use ListTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +35,8 @@ class CustomerController extends EntryController
         return view('admin-mailer::customers.index');
     }
 
-    public function tableIndex() {
+    public function tableIndex()
+    {
         return Laratables::recordsOf(LaratablesCustomers::class);
     }
 
@@ -47,7 +56,8 @@ class CustomerController extends EntryController
     /**
      * Store a newly created resource in storage.
      *
-     * @param CustomerRequest $request
+     * @param CustomerRequest  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CustomerRequest $request)
@@ -66,7 +76,8 @@ class CustomerController extends EntryController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,7 +90,8 @@ class CustomerController extends EntryController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -94,8 +106,9 @@ class CustomerController extends EntryController
     /**
      * Update the specified resource in storage.
      *
-     * @param CustomerRequest $request
-     * @param int $id
+     * @param CustomerRequest  $request
+     * @param int              $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(CustomerRequest $request, $id)
@@ -114,7 +127,8 @@ class CustomerController extends EntryController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      *
      * @throws \Exception
@@ -123,7 +137,7 @@ class CustomerController extends EntryController
     {
         $customer = MailerCustomer::findOrFail($id);
         $customer->delete();
-        
+
         return redirect()
             ->route('admin-mailer.customer.index')
             ->with('success', "The customer <strong>{$customer->name}</strong> has been deleted");

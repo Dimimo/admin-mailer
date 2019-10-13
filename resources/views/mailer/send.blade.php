@@ -112,8 +112,7 @@
                             + resp.message
                             + '</li>'
                         );
-                    }
-                    else {
+                    } else {
                         $ol.append(
                             '<li class="list-group-item">'
                             + '<span class="badge badge-primary badge-pill">'

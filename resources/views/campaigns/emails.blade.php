@@ -27,14 +27,14 @@
                     <div class="card-text">
                         {!! $campaign->description !!}
                     </div>
-                        <h5 class="card-title pt-3">
-                            All emails connected to this Campaign:
-                            <a href="{{ route($prefix.'emails.create', [$campaign->id]) }}" class="float-right">
-                                <small><span class="fas fa-plus"></span> Add an email to this Campaign</small>
-                            </a>
-                        </h5>
-                        @include('admin-mailer::emails._table')
-                    </div>
+                    <h5 class="card-title pt-3">
+                        All emails connected to this Campaign:
+                        <a href="{{ route($prefix.'emails.create', [$campaign->id]) }}" class="float-right">
+                            <small><span class="fas fa-plus"></span> Add an email to this Campaign</small>
+                        </a>
+                    </h5>
+                    @include('admin-mailer::emails._table')
+                </div>
             </div>
         </div>
     </div>

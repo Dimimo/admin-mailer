@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
@@ -7,12 +13,11 @@ use Auth;
 use Dimimo\AdminMailer\Events\TestMail;
 use Dimimo\AdminMailer\Http\Requests\EmailRequest;
 use Dimimo\AdminMailer\Models\MailerCampaignModel as Campaign;
-use Dimimo\AdminMailer\Models\MailerCampaignModel;
 use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
-use Dimimo\AdminMailer\Models\MailerLogModel;
 
 /**
  * Class EmailController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class EmailController extends EntryController
@@ -35,16 +40,18 @@ class EmailController extends EntryController
     /**
      * Show the form for creating a new resource.
      *
-     * @param int $campaign_id
+     * @param int  $campaign_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function create($campaign_id = null)
     {
-        if($campaign_id) {
+        if ($campaign_id)
+        {
             $campaign = Campaign::findOrFail($campaign_id);
             $email = new Email(['mailer_campaign_id' => $campaign->id]);
-        }
-        else {
+        } else
+        {
             $email = new Email();
         }
         $campaigns = Campaign::orderBy('name')->get();
@@ -55,7 +62,8 @@ class EmailController extends EntryController
     /**
      * Store a newly created resource in storage.
      *
-     * @param EmailRequest $request
+     * @param EmailRequest  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(EmailRequest $request)
@@ -72,7 +80,8 @@ class EmailController extends EntryController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -85,13 +94,15 @@ class EmailController extends EntryController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $email = Email::findOrFail($id);
-        if ($email->send_datetime) {
+        if ($email->send_datetime)
+        {
             $message = "The email <strong>{$email->title}</strong> can't be updated because it has been send out already!";
             $message .= "Use the copy function instead.";
             return redirect()
@@ -106,14 +117,16 @@ class EmailController extends EntryController
     /**
      * Update the specified resource in storage.
      *
-     * @param EmailRequest $request
-     * @param int $id
+     * @param EmailRequest  $request
+     * @param int           $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(EmailRequest $request, $id)
     {
         $email = Email::findOrFail($id);
-        if ($email->send_datetime) {
+        if ($email->send_datetime)
+        {
             return redirect()
                 ->back()
                 ->with('warning', "The email <strong>{$email->title}</strong> can't be deleted because it has been send out already!");
@@ -128,14 +141,16 @@ class EmailController extends EntryController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
     public function destroy($id)
     {
         $email = Email::findOrFail($id);
-        if ($email->send_datetime) {
+        if ($email->send_datetime)
+        {
             return redirect()
                 ->back()
                 ->with('warning', "The email <strong>{$email->title}</strong> can't be deleted because it has been send out already!");
@@ -150,7 +165,8 @@ class EmailController extends EntryController
     /**
      * Copy the body of a selected email to create a new email
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function copyEmail($id)
@@ -166,7 +182,8 @@ class EmailController extends EntryController
      * Send a test mail to yourself for testing the outcome of the body
      * This is an AJAX request with JSON reply
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function sendTest($id)

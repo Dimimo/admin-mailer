@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateMailerEmailsTable extends Migration
 {
@@ -12,7 +12,8 @@ class CreateMailerEmailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mailer_emails', function (Blueprint $table) {
+        Schema::create('mailer_emails', function (Blueprint $table)
+        {
             $table->increments('id');
             $table->string('title');
             $table->text('body')->nullable();

@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Requests;
 
@@ -6,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ListRequest
+ *
  * @package Dimimo\AdminMailer\Http\Requests
  */
 class CampaignRequest extends FormRequest
@@ -19,9 +26,9 @@ class CampaignRequest extends FormRequest
     {
         $id = $this->route()->parameter('id');
         return [
-            'name' => 'required|min:4|max:80|unique:mailer_campaigns,name,'.$id,
+            'name'        => 'required|min:4|max:80|unique:mailer_campaigns,name,' . $id,
             'description' => 'sometimes|max:5000',
-            'lists' => 'required',
+            'lists'       => 'required',
         ];
     }
 
@@ -33,12 +40,12 @@ class CampaignRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Please enter a name, this has to be unique as well',
-            'name.min' => 'The name needs to be at least 4 chars long',
-            'name.max' => 'Please shorten the name (max 80 chars)',
-            'name.unique' => 'This campaign name already exists, please provide a unique name',
+            'name.required'   => 'Please enter a name, this has to be unique as well',
+            'name.min'        => 'The name needs to be at least 4 chars long',
+            'name.max'        => 'Please shorten the name (max 80 chars)',
+            'name.unique'     => 'This campaign name already exists, please provide a unique name',
             'description.max' => 'Shorten the description, the maximum aloud input is 5000 chars, including HTML tags',
-            'lists.required' => 'Please select at least 1 list',
+            'lists.required'  => 'Please select at least 1 list',
         ];
     }
 }

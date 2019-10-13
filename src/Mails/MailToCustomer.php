@@ -17,6 +17,7 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class TestMailToAdmin
+ *
  * @package Dimimo\AdminMailer\Http\Mails
  */
 class MailToCustomer extends Mailable
@@ -47,9 +48,9 @@ class MailToCustomer extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param Customer $customer
-     * @param Email $email
-     * @param Log $log
+     * @param Customer  $customer
+     * @param Email     $email
+     * @param Log       $log
      */
     public function __construct(Customer $customer, Email $email, Log $log)
     {

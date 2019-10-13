@@ -7,7 +7,8 @@
     <div class="jumbotron align-center">
         <h4 class="display-4">Your are now subscribed</h4>
         <p class="lead">
-            You can receive messages from our website. You may <a href="{{ route($prefix . 'unsubscribe', ['u' => $customer->uuid]) }}">unsubscribe at any time</a>.
+            You can receive messages from our website. You may <a
+                    href="{{ route($prefix . 'unsubscribe', ['u' => $customer->uuid]) }}">unsubscribe at any time</a>.
         </p>
         <p class="lead">The link to unsubscribe is provided in any email we may send you.<br>
             Don' worry, you won't receive more than a couple of emails per year.</p>

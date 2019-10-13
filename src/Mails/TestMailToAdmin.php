@@ -1,10 +1,16 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Mails;
 
 use App\Models\User;
-use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use Dimimo\AdminMailer\Models\MailerCustomerModel as Customer;
+use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use Dimimo\AdminMailer\Models\MailerLogModel as Logger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -13,6 +19,7 @@ use Illuminate\Support\Str;
 
 /**
  * Class TestMailToAdmin
+ *
  * @package Dimimo\AdminMailer\Http\Mails
  */
 class TestMailToAdmin extends Mailable
@@ -44,9 +51,9 @@ class TestMailToAdmin extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param User $user
-     * @param Email $email
-     * @param Logger $log
+     * @param User    $user
+     * @param Email   $email
+     * @param Logger  $log
      */
     public function __construct(User $user, Email $email, Logger $log)
     {

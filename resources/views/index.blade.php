@@ -13,8 +13,10 @@
                 <div class="col">
                     <h5 class="center">Campaigns</h5>
                     <div class="list-group">
-                        <a href="{{ route($prefix . 'campaigns.index') }}" class="list-group-item list-group-item-action">Index</a>
-                        <a href="{{ route($prefix . 'campaigns.create') }}" class="list-group-item list-group-item-action">Add
+                        <a href="{{ route($prefix . 'campaigns.index') }}"
+                           class="list-group-item list-group-item-action">Index</a>
+                        <a href="{{ route($prefix . 'campaigns.create') }}"
+                           class="list-group-item list-group-item-action">Add
                             new</a>
                         <a href="{{ route($prefix.'campaigns.lists') }}" class="list-group-item list-group-item-action">Lists</a>
                     </div>
@@ -38,8 +40,10 @@
                 <div class="col">
                     <h5 class="center">Customers</h5>
                     <div class="list-group">
-                        <a href="{{ route($prefix . 'customers.index') }}" class="list-group-item list-group-item-action">Index</a>
-                        <a href="{{ route($prefix.'customers.create') }}" class="list-group-item list-group-item-action">Add
+                        <a href="{{ route($prefix . 'customers.index') }}"
+                           class="list-group-item list-group-item-action">Index</a>
+                        <a href="{{ route($prefix.'customers.create') }}"
+                           class="list-group-item list-group-item-action">Add
                             new</a>
                     </div>
                 </div>

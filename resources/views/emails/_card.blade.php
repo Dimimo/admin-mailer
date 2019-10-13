@@ -28,9 +28,9 @@
             <a href="{{ route('user.profile.show', [$email->owner->slug]) }}">{{ $email->owner->username }}</a>
         </span>
         @if ($email->draft)
-        <a href="{{ route($prefix.'emails.edit', [$email->id]) }}">
-            <span class="float-right fas fa-edit green"></span>
-        </a>
+            <a href="{{ route($prefix.'emails.edit', [$email->id]) }}">
+                <span class="float-right fas fa-edit green"></span>
+            </a>
         @else
             <a href="{{ route($prefix.'emails.copy', [$email->id]) }}"
                title="copy the content and create a new email">

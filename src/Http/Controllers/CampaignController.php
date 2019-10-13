@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
@@ -11,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class CampaignController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class CampaignController extends EntryController
@@ -45,7 +52,8 @@ class CampaignController extends EntryController
     /**
      * Store a newly created resource in storage.
      *
-     * @param CampaignRequest $request
+     * @param CampaignRequest  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CampaignRequest $request)
@@ -63,7 +71,8 @@ class CampaignController extends EntryController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -76,7 +85,8 @@ class CampaignController extends EntryController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -90,8 +100,9 @@ class CampaignController extends EntryController
     /**
      * Update the specified resource in storage.
      *
-     * @param CampaignRequest $request
-     * @param int $id
+     * @param CampaignRequest  $request
+     * @param int              $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(CampaignRequest $request, $id)
@@ -100,10 +111,12 @@ class CampaignController extends EntryController
         $campaign->update($request->validated());
         //if emails has been send, the connected lists can not be changed anymore
         $send_emails_count = $campaign->emails()->where('draft', '=', '0')->count();
-        if ($send_emails_count == 0) {
+        if ($send_emails_count == 0)
+        {
             $message = '';
             $this->_syncLists($campaign);
-        } else {
+        } else
+        {
             $message = '.<br> Lists could not be updated because ' . $send_emails_count . ' email(s) has been send already.<br>';
             $message .= 'If you would like to change the lists to this campaign, you will have to create a new campaign.';
         }
@@ -116,14 +129,16 @@ class CampaignController extends EntryController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
     public function destroy($id)
     {
         $campaign = Campaign::findOrFail($id);
-        if ($campaign->emails()->count() > 0) {
+        if ($campaign->emails()->count() > 0)
+        {
             return redirect()
                 ->back()
                 ->with('warning', "The campaign {$campaign->name} can not be deleted because it has emails");
@@ -143,7 +158,8 @@ class CampaignController extends EntryController
      */
     public function listsView()
     {
-        $campaigns = Campaign::withCount(['emails', 'lists'])->with(['lists' => function (BelongsToMany $q) {
+        $campaigns = Campaign::withCount(['emails', 'lists'])->with(['lists' => function (BelongsToMany $q)
+        {
             return $q->orderBy('name');
         }])->orderBy('name')->get();
         $lists = $this->getLists();
@@ -155,11 +171,13 @@ class CampaignController extends EntryController
      * Show all the emails connected to a Campaign
      *
      * @param $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function emails($id)
     {
-        $campaign = Campaign::with(['emails' => function (HasMany $q) {
+        $campaign = Campaign::with(['emails' => function (HasMany $q)
+        {
             return $q->orderBy('updated_at', 'asc');
         }])->findOrFail($id);
         $emails = $campaign->emails;
@@ -171,6 +189,7 @@ class CampaignController extends EntryController
      * Show all customers connected to a Campaign
      *
      * @param $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function customers($id)
@@ -184,14 +203,17 @@ class CampaignController extends EntryController
     /**
      * Sync the lists (many to many) to the current Campaign
      *
-     * @param Campaign $campaign
+     * @param Campaign  $campaign
+     *
      * @return void
      */
     private function _syncLists(Campaign $campaign)
     {
-        if ($lists = array_unique(request()->get('lists'))) {
+        if ($lists = array_unique(request()->get('lists')))
+        {
             $campaign->lists()->sync($lists);
-        } else {
+        } else
+        {
             $campaign->lists()->detach();
         }
     }

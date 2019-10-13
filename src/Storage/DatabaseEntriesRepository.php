@@ -1,9 +1,14 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use EntriesRepository as Contract;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseEntriesRepository implements Contract
 {
@@ -17,7 +22,8 @@ class DatabaseEntriesRepository implements Contract
     /**
      * Create a new database repository.
      *
-     * @param string $connection
+     * @param string  $connection
+     *
      * @return void
      */
     public function __construct(string $connection)
@@ -28,7 +34,8 @@ class DatabaseEntriesRepository implements Contract
     /**
      * Get a query builder instance for the given table.
      *
-     * @param string $table
+     * @param string  $table
+     *
      * @return Builder
      */
     protected function table($table)

@@ -8,14 +8,15 @@
 
 namespace Dimimo\AdminMailer\Events;
 
-use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use Dimimo\AdminMailer\Models\MailerCustomerModel as Customer;
+use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
  * Class TestMail
+ *
  * @package Dimimo\AdminMailer\Events
  */
 class SendMail
@@ -35,8 +36,8 @@ class SendMail
     /**
      * Create a new event instance.
      *
-     * @param Customer $customer
-     * @param Email $email
+     * @param Customer  $customer
+     * @param Email     $email
      */
     public function __construct(Customer $customer, Email $email)
     {

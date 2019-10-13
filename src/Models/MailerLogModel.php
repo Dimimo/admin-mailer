@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Models;
 
@@ -9,28 +15,28 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Dimimo\AdminMailer\Models\MailerLogModel
  *
- * @property int $id
- * @property string $uuid
- * @property int $mailer_customer_id
- * @property int $mailer_email_id
+ * @property int                                                 $id
+ * @property string                          $uuid
+ * @property int                             $mailer_customer_id
+ * @property int                             $mailer_email_id
  * @property \Illuminate\Support\Carbon|null $read_datetime
- * @property int|null $is_send
+ * @property int|null                        $is_send
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Dimimo\AdminMailer\Models\MailerCustomerModel $customer
- * @property-read \Dimimo\AdminMailer\Models\MailerEmailModel $email
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel opened()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel query()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereIsSend($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereMailerCustomerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereMailerEmailId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereReadDatetime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerLogModel whereUuid($value)
+ * @property-read MailerCustomerModel        $customer
+ * @property-read MailerEmailModel           $email
+ * @method static Builder|MailerLogModel newModelQuery()
+ * @method static Builder|MailerLogModel newQuery()
+ * @method static Builder|MailerLogModel opened()
+ * @method static Builder|MailerLogModel query()
+ * @method static Builder|MailerLogModel whereCreatedAt($value)
+ * @method static Builder|MailerLogModel whereId($value)
+ * @method static Builder|MailerLogModel whereIsSend($value)
+ * @method static Builder|MailerLogModel whereMailerCustomerId($value)
+ * @method static Builder|MailerLogModel whereMailerEmailId($value)
+ * @method static Builder|MailerLogModel whereReadDatetime($value)
+ * @method static Builder|MailerLogModel whereUpdatedAt($value)
+ * @method static Builder|MailerLogModel whereUuid($value)
  * @mixin \Eloquent
  */
 class MailerLogModel extends Model
@@ -69,10 +75,12 @@ class MailerLogModel extends Model
 
     /**
      * @param $query
+     *
      * @return Builder
      */
-    public function scopeOpened($query) {
-        /** @var Builder $query*/
+    public function scopeOpened($query)
+    {
+        /** @var Builder $query */
         return $query->whereNotNull('read_datetime');
     }
 

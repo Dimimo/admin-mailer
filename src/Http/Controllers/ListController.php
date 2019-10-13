@@ -1,9 +1,14 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
 use App\Models\City;
-use App\Models\Customer;
 use Dimimo\AdminMailer\Http\Requests\ListRequest;
 use Dimimo\AdminMailer\Models\MailerListModel as MailerList;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class ListController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class ListController extends EntryController
@@ -22,9 +28,11 @@ class ListController extends EntryController
      */
     public function index()
     {
-        $lists = MailerList::with(['campaigns' => function (BelongsToMany $q) {
+        $lists = MailerList::with(['campaigns' => function (BelongsToMany $q)
+        {
             return $q->orderBy('name');
-        }])->withCount(['campaigns', 'customers' => function (Builder $q) {
+        }])->withCount(['campaigns', 'customers' => function (Builder $q)
+        {
             return $q->where('accepts_mail', '=', '1');
         }])->orderBy('name')->get();
 
@@ -46,7 +54,8 @@ class ListController extends EntryController
     /**
      * Store a newly created resource in storage.
      *
-     * @param ListRequest $request
+     * @param ListRequest  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(ListRequest $request)
@@ -63,12 +72,14 @@ class ListController extends EntryController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $list = MailerList::with(['campaigns' => function (BelongsToMany $q) {
+        $list = MailerList::with(['campaigns' => function (BelongsToMany $q)
+        {
             return $q->orderBy('name');
         }])->withCount(['campaigns', 'customers'])->findOrFail($id);
 
@@ -78,7 +89,8 @@ class ListController extends EntryController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -92,8 +104,9 @@ class ListController extends EntryController
     /**
      * Update the specified resource in storage.
      *
-     * @param ListRequest $request
-     * @param int $id
+     * @param ListRequest  $request
+     * @param int          $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(ListRequest $request, $id)
@@ -111,7 +124,8 @@ class ListController extends EntryController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int  $id
+     *
      * @return \Illuminate\Http\Response
      *
      * @throws \Exception
@@ -119,21 +133,26 @@ class ListController extends EntryController
     public function destroy($id)
     {
         $list = MailerList::findOrFail($id);
-        if ($list->customers()->count() > 0) {
-            return redirect()->back()->with('warning', "The list {$list->name} can't be deleted because there are still customers inside");
+        if ($list->customers()->count() > 0)
+        {
+            return redirect()->back()
+                ->with('warning', "The list {$list->name} can't be deleted because there are still customers inside");
         }
         $list->delete();
 
-        return redirect()->route('admin-mailer.lists.index')->with('success', "The list <strong>{$list->name}</strong> has been deleted");
+        return redirect()->route('admin-mailer.lists.index')
+            ->with('success', "The list <strong>{$list->name}</strong> has been deleted");
     }
 
     /**
      * Show all customers connected to a list
      *
      * @param $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function customers($id) {
+    public function customers($id)
+    {
         $list = MailerList::findOrFail($id);
         $query = json_encode(['mailer_list_id' => [$id]]);
 
@@ -141,7 +160,8 @@ class ListController extends EntryController
         return view('admin-mailer::lists.customers', compact('list', 'query'));
     }
 
-    public function campaigns($id) {
+    public function campaigns($id)
+    {
         $list = MailerList::findOrFail($id);
         $campaigns = $list->campaigns()->orderBy('name')->get();
 

@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer\Events;
 
@@ -10,6 +16,7 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class TestMail
+ *
  * @package Dimimo\AdminMailer\Events
  */
 class TestMail
@@ -29,8 +36,8 @@ class TestMail
     /**
      * Create a new event instance.
      *
-     * @param User $user
-     * @param Email $email
+     * @param User   $user
+     * @param Email  $email
      */
     public function __construct(User $user, Email $email)
     {

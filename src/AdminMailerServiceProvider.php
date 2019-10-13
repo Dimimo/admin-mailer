@@ -1,4 +1,10 @@
 <?php
+/**
+ *
+ *  Copyright (c) 2019. Puerto Parrot Booklet. Written by Dimitri Mostrey for www.puertoparrot.com
+ *  Contact me at admin@puertoparrot.com or dmostrey@yahoo.com
+ *
+ */
 
 namespace Dimimo\AdminMailer;
 
@@ -9,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 /**
  * Class AdminMailerServiceProvider
+ *
  * @package Dimimo\AdminMailer
  */
 class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
@@ -26,7 +33,8 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
         $this->registerMigrations();
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'admin-mailer');
         // Publishing is only necessary when using the CLI.
-        if ($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole())
+        {
             $this->bootForConsole();
         }
         view()->share('prefix', config('admin-mailer.prefix') . '.');
@@ -39,10 +47,12 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
      */
     private function registerRoutes()
     {
-        Route::group($this->routeConfiguration(), function () {
+        Route::group($this->routeConfiguration(), function ()
+        {
             $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
         });
-        Route::group($this->webRouteConfiguration(), function() {
+        Route::group($this->webRouteConfiguration(), function ()
+        {
             $this->loadRoutesFrom(__DIR__ . '/Http/web.php');
         });
     }
@@ -54,7 +64,8 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
      */
     private function registerMigrations()
     {
-        if ($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole())
+        {
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         }
     }
@@ -68,8 +79,8 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
     private function routeConfiguration()
     {
         return [
-            'prefix' => config('admin-mailer.prefix'),
-            'namespace' => 'Dimimo\AdminMailer\Http\Controllers',
+            'prefix'     => config('admin-mailer.prefix'),
+            'namespace'  => 'Dimimo\AdminMailer\Http\Controllers',
             'middleware' => 'admin-mailer',
         ];
     }
@@ -123,7 +134,8 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
         //register the events
         $this->app['events']->subscribe(EventHandler::class);
         // Register the service the package provides.
-        $this->app->singleton('admin-mailer', function () {
+        $this->app->singleton('admin-mailer', function ()
+        {
             return new AdminMailer();
         });
         $this->app->alias('AdminMailer', 'Dimimo\AdminMailer\AdminMailer');

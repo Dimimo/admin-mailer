@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 /**
  * Class SubscribeController
+ *
  * @package Dimimo\AdminMailer\Http\Controllers
  */
 class SubscribeController extends EntryController
@@ -20,10 +21,12 @@ class SubscribeController extends EntryController
     /**
      * Handle an unsubscription request
      *
-     * @param Request $request
+     * @param Request  $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function unsubscribe(Request $request) {
+    public function unsubscribe(Request $request)
+    {
         $uuid = $request->get('u');
         $customer = Customer::where('uuid', $uuid)->first();
         $customer->update(['accepts_mail' => '0']);
@@ -34,10 +37,12 @@ class SubscribeController extends EntryController
     /**
      * Handle a subscription request
      *
-     * @param Request $request
+     * @param Request  $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subscribe(Request $request) {
+    public function subscribe(Request $request)
+    {
         $uuid = $request->get('u');
         $customer = Customer::where('uuid', $uuid)->first();
         $customer->update(['accepts_mail' => '1']);
