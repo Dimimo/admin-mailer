@@ -13,7 +13,7 @@ use Dimimo\AdminMailer\Models\MailerCustomerModel;
 /**
  * Class HomeController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class HomeController extends EntryController
 {

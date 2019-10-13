@@ -18,7 +18,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Class TestMailToAdmin
  *
- * @package Dimimo\AdminMailer\Http\Mails
+ * @package Dimimo\AdminMailer
  */
 class MailToCustomer extends Mailable
 {

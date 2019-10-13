@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 /**
  * Class TestMailToAdmin
  *
- * @package Dimimo\AdminMailer\Http\Mails
+ * @package Dimimo\AdminMailer
  */
 class TestMailToAdmin extends Mailable
 {

@@ -18,7 +18,7 @@ use Mail;
 /**
  * Class ArticleCreatedEmailUser
  *
- * @package App\Listeners
+ * @package Dimimo\AdminMailer
  */
 class SendCustomerMail
 {

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 /**
  * Class SubscribeController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class SubscribeController extends EntryController
 {

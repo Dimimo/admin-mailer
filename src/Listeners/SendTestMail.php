@@ -19,7 +19,7 @@ use Mail;
 /**
  * Class ArticleCreatedEmailUser
  *
- * @package App\Listeners
+ * @package Dimimo\AdminMailer
  */
 class SendTestMail implements ShouldQueue
 {

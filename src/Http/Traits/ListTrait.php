@@ -13,7 +13,7 @@ use Dimimo\AdminMailer\Models\MailerListModel as MailerList;
 /**
  * Trait ListTrait
  *
- * @package Dimimo\AdminMailer\Http\Traits
+ * @package Dimimo\AdminMailer
  */
 trait ListTrait
 {

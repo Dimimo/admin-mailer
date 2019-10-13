@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Class CampaignController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class CampaignController extends EntryController
 {

@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Dimimo\AdminMailer\Models\MailerEmailModel
  *
- * @property int                                                                                       $id
- * @property string                                                                                    $title
- * @property string|null                                                                               $body
- * @property int                                                                                       $mailer_campaign_id
- * @property int                                                                                       $draft
+ * @property int                                                            $id
+ * @property string                                                         $title
+ * @property string|null                                                    $body
+ * @property int                                                            $mailer_campaign_id
+ * @property int                                                            $draft
  * @property \Illuminate\Support\Carbon|null                                $send_datetime
  * @property int                                                            $created_by
  * @property \Illuminate\Support\Carbon|null                                $created_at
@@ -99,8 +99,12 @@ class MailerEmailModel extends Model
      */
     public function completed()
     {
+        if (!$this->send_datetime)
+        {
+            return false;
+        }
         return MailerLogModel::where([['mailer_email_id', '=', $this->id], ['is_send', '=', '1']])->count()
-            == MailerCampaignModel::find($this->campaign->id)->all_customers_id->count();
+            === $this->customersCountBeforeSend();
     }
 
     /**
@@ -115,6 +119,23 @@ class MailerEmailModel extends Model
             ->join('mailer_emails', 'mailer_logs.mailer_email_id', '=', 'mailer_emails.id')
             ->where('mailer_emails.id', '=', $this->id)
             ->where('mailer_customers.accepts_mail', '=', '0');
+    }
+
+    /**
+     * Returns the number of customers in the list before the email was send
+     * If new customers are added to the list, they'll have a later date of creation
+     *
+     * @return int
+     */
+    private function customersCountBeforeSend()
+    {
+        return MailerCustomerModel
+            ::join('mailer_lists', 'mailer_lists.id', '=', 'mailer_customers.mailer_list_id')
+            ->join('mailer_campaign_mailer_list', 'mailer_campaign_mailer_list.mailer_list_id', '=', 'mailer_lists.id')
+            ->join('mailer_campaigns', 'mailer_campaign_mailer_list.mailer_campaign_id', '=', 'mailer_campaigns.id')
+            ->where('mailer_campaigns.id', '=', $this->campaign->id)
+            ->where('mailer_customers.created_at', '<=', $this->send_datetime)
+            ->count();
     }
 
     /**

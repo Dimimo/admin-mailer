@@ -17,7 +17,7 @@ use Intervention\Image\ImageManager;
 /**
  * Class LogController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class LogController extends EntryController
 {

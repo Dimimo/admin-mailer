@@ -17,7 +17,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Class TestMail
  *
- * @package Dimimo\AdminMailer\Events
+ * @package Dimimo\AdminMailer
  */
 class SendMail
 {

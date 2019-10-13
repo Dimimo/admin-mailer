@@ -18,7 +18,7 @@ use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 /**
  * Class EmailController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class EmailController extends EntryController
 {

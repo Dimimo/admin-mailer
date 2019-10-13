@@ -13,7 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class ListRequest
  *
- * @package Dimimo\AdminMailer\Http\Requests
+ * @package Dimimo\AdminMailer
  */
 class EmailRequest extends FormRequest
 {

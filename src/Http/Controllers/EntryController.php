@@ -13,7 +13,7 @@ use Illuminate\Routing\Controller;
 /**
  * Class EntryController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class EntryController extends Controller
 {

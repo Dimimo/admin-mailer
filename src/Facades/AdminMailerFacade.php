@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class AdminMailerFacade
  *
- * @package Dimimo\AdminMailer\Facades
+ * @package Dimimo\AdminMailer
  */
 class AdminMailerFacade extends Facade
 {

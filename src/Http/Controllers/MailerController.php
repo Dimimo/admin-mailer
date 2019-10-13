@@ -14,11 +14,12 @@ use Dimimo\AdminMailer\Models\MailerEmailModel as Email;
 use Dimimo\AdminMailer\Models\MailerLogModel as Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 /**
  * Class MailerController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class MailerController extends EntryController
 {
@@ -40,8 +41,15 @@ class MailerController extends EntryController
                 ->with('warning', "The email <strong>{$email->title}</strong> can't be handled because it has already been send to the customers!");
         }
         $customers = $email->campaign->all_customers_id;
+        $already_send = Log::select('mailer_customer_id')
+            ->where([['mailer_email_id', '=', $email->id], ['is_send', '=', '1']])
+            ->get()
+            ->pluck('mailer_customer_id');//dd(count($customers), count($already_send));
+        $customers = $customers->diff($already_send); //show only those customer_ids not yet send out
+        $customers = $customers->values(); //reset the keys
+        $already_send = count($already_send);
 
-        return view('admin-mailer::mailer.send', compact('email', 'customers'));
+        return view('admin-mailer::mailer.send', compact('email', 'customers', 'already_send'));
     }
 
     /**
@@ -53,15 +61,17 @@ class MailerController extends EntryController
      * @param Request  $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function sending(Request $request)
     {
         $email = Email::with('campaign')->findOrFail($request->get('email_id'));
         $customer = Customer::findOrFail($request->get('id'));
-        //normally, this situation is not possible, but check anyway just in case
-        //We don't want to send an email to a customer that has unsubscribed
+        //We don't send an email to a customer that has unsubscribed
+        //But we do create a bogus entry to keep the stats clean (the unsubscribe problem)
         if (!$customer->accepts_mail)
         {
+            $this->addBogusEntry($email, $customer);
             return response()->json(['status' => 'warning', 'message' => "The customer {$customer->name} doesn't accept email"]);
         }
         if ($email->draft)
@@ -72,39 +82,73 @@ class MailerController extends EntryController
         {
             return response()
                 ->json([
-                    'status'  => 'warning',
-                    'message' => "The email to <strong>{$customer->name}</strong> was already send. All is ok. proceeding..."
+                    'status'   => 'warning',
+                    'message'  => "The email to <strong>{$customer->name}</strong> was already send. All is ok. proceeding...",
+                    'email_id' => $email->id,
                 ]);
         }
         event(new SendMail($customer, $email));
         @usleep(config('admin-mailer.email.delay') * 1000);
         if ($customer->city)
         {
-            $message = ' in <strong>' . $customer->city->name . '</strong>';
+            $message = ' in ' . $customer->city->name;
         } else
         {
             $message = '';
         }
         return response()->json([
-            'status'  => 'success',
-            'message' => "Send to <strong>{$customer->name}</strong>{$message}"
+            'status'   => 'success',
+            'message'  => "Send to <strong>{$customer->name}</strong>{$message}",
+            'email_id' => $email->id,
         ]);
     }
 
     /**
      * Check if the entry already exists and has been send.
+     * True = it is already send
+     * False = not send (no entry in the Log)
+     *         or it exists in the DB but got not send by the event listener
      *
      * @param Email     $email
      * @param Customer  $customer
      *
      * @return integer
+     * @throws \Exception
      */
-    private function checkEntry($email, $customer)
+    private function checkEntry(Email $email, Customer $customer)
     {
-        return Log::where([
+        $log = Log::where([
             ['mailer_customer_id', '=', $customer->id],
-            ['mailer_email_id', '=', $email->id],
-            ['is_send', '=', '1']
-        ])->first()->count();
+            ['mailer_email_id', '=', $email->id]
+        ])->first();
+        if (!$log)
+        {
+            return false;
+        }
+        if ($log->is_send == 1)
+        {
+            return true;
+        }
+        //simply delete the log entry, the listener will create a new input
+        $log->delete();
+
+        return false;
+    }
+
+    /**
+     * Add a bogus entry for unsubscribed customers
+     * This is to make the statistics possible (the unsubscribe problem)
+     *
+     * @param Email     $email
+     * @param Customer  $customer
+     *
+     * @return void
+     */
+    private function addBogusEntry(Email $email, Customer $customer) {
+        (new Log([
+            'mailer_customer_id' => $customer->id,
+            'mailer_email_id'    => $email->id,
+            'uuid'               => Str::uuid()->getHex(),
+            'is_send'            => '1']))->save();
     }
 }

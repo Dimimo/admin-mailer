@@ -16,7 +16,7 @@ use Illuminate\Http\Response;
 /**
  * Class Authorize
  *
- * @package Dimimo\AdminMailer\Http\Middleware
+ * @package Dimimo\AdminMailer
  */
 class Authorize
 {

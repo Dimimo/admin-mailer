@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 /**
  * Class CustomerController
  *
- * @package Dimimo\AdminMailer\Http\Controllers
+ * @package Dimimo\AdminMailer
  */
 class CustomerController extends EntryController
 {
@@ -121,7 +121,7 @@ class CustomerController extends EntryController
 
         return redirect()
             ->route('admin-mailer.customers.show', [$customer->id])
-            ->with('success', $customer->name . " is update");
+            ->with('success', $customer->name . " is updated");
     }
 
     /**
