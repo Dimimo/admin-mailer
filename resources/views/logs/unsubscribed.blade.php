@@ -10,9 +10,9 @@
             <h5>Users that have unsubscribed on <a
                         href="{{ route($prefix.'emails.show', [$email->id]) }}"><strong>{{ $email->title }}</strong></a>
             </h5>
-            <h6>Part of the <a
-                        href="{{ route($prefix.'campaigns.show', [$email->campaign->id]) }}"><strong>{{ $email->campaign->name }}</strong></a>
-                Campaign</h6>
+            <h6>Part of the <a href="{{ route($prefix.'campaigns.show', [$email->campaign->id]) }}">
+                    <strong>{{ $email->campaign->name }}</strong>
+                </a> Campaign</h6>
         </div>
         <div class="card-body">
             <div class="row">

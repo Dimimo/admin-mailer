@@ -18,33 +18,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int                                                                                         $id
  * @property string                                                                                      $name
  * @property string|null                                                                                 $description
- * @property int                                                              $owner_id
- * @property \Illuminate\Support\Carbon|null                                  $created_at
- * @property \Illuminate\Support\Carbon|null                                  $updated_at
- * @property \Illuminate\Support\Carbon|null                                  $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|MailerEmailModel[] $emails
- * @property-read int|null                                                    $emails_count
- * @property-read \Illuminate\Contracts\Pagination\LengthAwarePaginator       $all_customers
- * @property-read \Illuminate\Support\Collection                              $all_customers_id
- * @property-read \Illuminate\Support\Collection                              $uuid_customers
- * @property-read \Illuminate\Database\Eloquent\Collection|MailerListModel[]  $lists
- * @property-read int|null                                                    $lists_count
- * @property-read User                                                       $owner
+ * @property int                                                                                         $owner_id
+ * @property \Illuminate\Support\Carbon|null                                                             $created_at
+ * @property \Illuminate\Support\Carbon|null                                                             $updated_at
+ * @property \Illuminate\Support\Carbon|null                                                             $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerEmailModel[] $emails
+ * @property-read int|null                                                                               $emails_count
+ * @property-read \Illuminate\Contracts\Pagination\LengthAwarePaginator                                  $all_customers
+ * @property-read \Illuminate\Support\Collection                                                         $all_customers_id
+ * @property-read \Illuminate\Support\Collection                                                         $uuid_customers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerListModel[]  $lists
+ * @property-read int|null                                                                               $lists_count
+ * @property-read \App\Models\User                                                                       $owner
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel newQuery()
- * @method static \Illuminate\Database\Query\Builder|MailerCampaignModel onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereOwnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerCampaignModel whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|MailerCampaignModel withTrashed()
- * @method static \Illuminate\Database\Query\Builder|MailerCampaignModel withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereOwnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerCampaignModel withoutTrashed()
  * @mixin \Eloquent
  */
 class MailerCampaignModel extends Model
@@ -126,7 +126,7 @@ class MailerCampaignModel extends Model
             ->join('mailer_campaign_mailer_list', 'mailer_campaign_mailer_list.mailer_list_id', '=', 'mailer_lists.id')
             ->join('mailer_campaigns', 'mailer_campaign_mailer_list.mailer_campaign_id', '=', 'mailer_campaigns.id')
             ->where('mailer_campaigns.id', '=', $this->id)
-            ->where('mailer_customers.accepts_mail', '=', '1')
+            //->where('mailer_customers.accepts_mail', '=', '1')
             ->pluck('uuid');
     }
 

@@ -44,10 +44,13 @@
         sending the email to all customers, there is NO way back.</span>
     </p>
     <p class="text-justify">
+        <u>If you accidently interrupt the process</u> or something else went wrong, don't worry. You can pick up where
+        you left. The process will simply continue.
+    </p>
+    <p class="text-justify">
         The emails are send in <strong>real time</strong>. <u>It is your browser that loops through all customers and
-            instructs the server to send them out</u>. One by one. <strong>This is the reason why you don't refresh the
-            browser during the process.</strong> As a bonus, you have a reply to your browser as the emails are send out
-        one by one. Just wait until the process is done. It should take about <strong>one second per email</strong>.
+            instructs the server to send them out</u>. One by one. It should take about <strong>one second per
+            email</strong>.
     </p>
     <hr>
 

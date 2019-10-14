@@ -10,6 +10,7 @@ namespace Dimimo\AdminMailer\Http\Controllers;
 
 use Dimimo\AdminMailer\Models\MailerCustomerModel as Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 /**
  * Class SubscribeController
@@ -29,7 +30,7 @@ class SubscribeController extends EntryController
     {
         $uuid = $request->get('u');
         $customer = Customer::where('uuid', $uuid)->first();
-        $customer->update(['accepts_mail' => '0']);
+        $customer->update(['accepts_mail' => '0', 'unsubscribed_at' => Carbon::now()]);
 
         return view('admin-mailer::unsubscribed', compact('customer'));
     }
@@ -45,7 +46,7 @@ class SubscribeController extends EntryController
     {
         $uuid = $request->get('u');
         $customer = Customer::where('uuid', $uuid)->first();
-        $customer->update(['accepts_mail' => '1']);
+        $customer->update(['accepts_mail' => '1', 'unsubscribed_at' => null]);
 
         return view('admin-mailer::subscribed', compact('customer'));
     }

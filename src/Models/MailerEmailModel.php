@@ -15,39 +15,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Dimimo\AdminMailer\Models\MailerEmailModel
  *
- * @property int                                                            $id
- * @property string                                                         $title
- * @property string|null                                                    $body
- * @property int                                                            $mailer_campaign_id
- * @property int                                                            $draft
- * @property \Illuminate\Support\Carbon|null                                $send_datetime
- * @property int                                                            $created_by
- * @property \Illuminate\Support\Carbon|null                                $created_at
- * @property \Illuminate\Support\Carbon|null                                $updated_at
- * @property \Illuminate\Support\Carbon|null                                $deleted_at
- * @property-read MailerCampaignModel                                       $campaign
- * @property-read \Illuminate\Database\Query\Builder                        $unsubscribed
- * @property-read \Illuminate\Database\Eloquent\Collection|MailerLogModel[] $logs
- * @property-read int|null                                                  $logs_count
- * @property-read User                                                      $owner
+ * @property int                                                                                       $id
+ * @property string                                                                                    $title
+ * @property string|null                                                                               $body
+ * @property int                                                                                       $mailer_campaign_id
+ * @property int                                                                                       $draft
+ * @property \Illuminate\Support\Carbon|null                                                           $send_datetime
+ * @property int                                                                                       $created_by
+ * @property \Illuminate\Support\Carbon|null                                                           $created_at
+ * @property \Illuminate\Support\Carbon|null                                                           $updated_at
+ * @property \Illuminate\Support\Carbon|null                                                           $deleted_at
+ * @property-read \Dimimo\AdminMailer\Models\MailerCampaignModel                                       $campaign
+ * @property-read \Illuminate\Database\Query\Builder                                                   $unsubscribed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerLogModel[] $logs
+ * @property-read int|null                                                                             $logs_count
+ * @property-read \App\Models\User                                                                     $owner
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel newQuery()
- * @method static \Illuminate\Database\Query\Builder|MailerEmailModel onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereDraft($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereMailerCampaignId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereSendDatetime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MailerEmailModel whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|MailerEmailModel withTrashed()
- * @method static \Illuminate\Database\Query\Builder|MailerEmailModel withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereDraft($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereMailerCampaignId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereSendDatetime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\Dimimo\AdminMailer\Models\MailerEmailModel withoutTrashed()
  * @mixin \Eloquent
  */
 class MailerEmailModel extends Model
@@ -103,8 +103,60 @@ class MailerEmailModel extends Model
         {
             return false;
         }
-        return MailerLogModel::where([['mailer_email_id', '=', $this->id], ['is_send', '=', '1']])->count()
-            === $this->customersCountBeforeSend();
+        $diff = $this->notAttendedCustomers();
+        if ($diff->count() == 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * returns a collection of all customers that haven't been send the email in a started email mass send event
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function notAttendedCustomers()
+    {
+        $logs = $this->attendedCustomers();
+        $uuids = $this->customersCollectionBeforeSend()->get('uuid')->pluck('uuid');
+        $this->send_datetime ? $date = $this->send_datetime : $date = '';
+        $customers = MailerCustomerModel
+            ::whereIn('uuid', $uuids)
+            ->where('mailer_customers.created_at', '<', $date)
+            ->pluck('id');
+
+        return $customers->diff($logs);
+    }
+
+    /**
+     * returns an array collection of all customer ids that have been send the email already
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function attendedCustomers()
+    {
+        return MailerLogModel
+            ::where([['mailer_email_id', '=', $this->id], ['is_send', '=', '1']])
+            ->get('mailer_customer_id')
+            ->pluck('mailer_customer_id');
+    }
+
+    /**
+     * Returns a Builder to create a collection of customers in the list before the email was send
+     * If new customers are added to the list, they'll have a later date of creation
+     *
+     * @return MailerEmailModel
+     */
+    public function customersCollectionBeforeSend()
+    {
+        return MailerCustomerModel
+            ::join('mailer_lists', 'mailer_lists.id', '=', 'mailer_customers.mailer_list_id')
+            ->join('mailer_campaign_mailer_list', 'mailer_campaign_mailer_list.mailer_list_id', '=', 'mailer_lists.id')
+            ->join('mailer_campaigns', 'mailer_campaign_mailer_list.mailer_campaign_id', '=', 'mailer_campaigns.id')
+            ->where('mailer_campaigns.id', '=', $this->campaign->id)
+            ->where('mailer_customers.created_at', '<=', $this->send_datetime);
     }
 
     /**
@@ -118,24 +170,8 @@ class MailerEmailModel extends Model
             ::join('mailer_logs', 'mailer_customers.id', '=', 'mailer_logs.mailer_customer_id')
             ->join('mailer_emails', 'mailer_logs.mailer_email_id', '=', 'mailer_emails.id')
             ->where('mailer_emails.id', '=', $this->id)
-            ->where('mailer_customers.accepts_mail', '=', '0');
-    }
-
-    /**
-     * Returns the number of customers in the list before the email was send
-     * If new customers are added to the list, they'll have a later date of creation
-     *
-     * @return int
-     */
-    private function customersCountBeforeSend()
-    {
-        return MailerCustomerModel
-            ::join('mailer_lists', 'mailer_lists.id', '=', 'mailer_customers.mailer_list_id')
-            ->join('mailer_campaign_mailer_list', 'mailer_campaign_mailer_list.mailer_list_id', '=', 'mailer_lists.id')
-            ->join('mailer_campaigns', 'mailer_campaign_mailer_list.mailer_campaign_id', '=', 'mailer_campaigns.id')
-            ->where('mailer_campaigns.id', '=', $this->campaign->id)
-            ->where('mailer_customers.created_at', '<=', $this->send_datetime)
-            ->count();
+            ->where('mailer_customers.accepts_mail', '=', '0')
+            ->where('mailer_customers.unsubscribed_at', '>', $this->send_datetime);
     }
 
     /**

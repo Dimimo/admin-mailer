@@ -29,7 +29,7 @@
                 @endif
             </td>
             <td>
-                @if($email->completed())
+                @if($email->completed() === true)
                     {{ $email->send_datetime ? $email->send_datetime->format('d/m/y H:i') : '' }}
                 @else
                     <a href="{{ route($prefix.'mailer.send', [$email->id]) }}">

@@ -41,10 +41,7 @@ class MailerController extends EntryController
                 ->with('warning', "The email <strong>{$email->title}</strong> can't be handled because it has already been send to the customers!");
         }
         $customers = $email->campaign->all_customers_id;
-        $already_send = Log::select('mailer_customer_id')
-            ->where([['mailer_email_id', '=', $email->id], ['is_send', '=', '1']])
-            ->get()
-            ->pluck('mailer_customer_id');//dd(count($customers), count($already_send));
+        $already_send = $email->attendedCustomers();
         $customers = $customers->diff($already_send); //show only those customer_ids not yet send out
         $customers = $customers->values(); //reset the keys
         $already_send = count($already_send);
@@ -72,7 +69,10 @@ class MailerController extends EntryController
         if (!$customer->accepts_mail)
         {
             $this->addBogusEntry($email, $customer);
-            return response()->json(['status' => 'warning', 'message' => "The customer {$customer->name} doesn't accept email"]);
+            return response()->json([
+                'status'  => 'warning',
+                'message' => "The customer {$customer->name} doesn't accept email. Don't worry. Proceeding..."
+            ]);
         }
         if ($email->draft)
         {
@@ -144,7 +144,8 @@ class MailerController extends EntryController
      *
      * @return void
      */
-    private function addBogusEntry(Email $email, Customer $customer) {
+    private function addBogusEntry(Email $email, Customer $customer)
+    {
         (new Log([
             'mailer_customer_id' => $customer->id,
             'mailer_email_id'    => $email->id,

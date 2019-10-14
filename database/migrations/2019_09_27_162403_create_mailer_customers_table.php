@@ -21,6 +21,7 @@ class CreateMailerCustomersTable extends Migration
             $table->unsignedInteger('mailer_list_id')->nullable()->index();
             $table->string('real_name')->nullable();
             $table->boolean('accepts_mail')->default(true)->index();
+            $table->dateTime('unsubscribed_at')->nullable()->index();
             $table->boolean('reads_mail')->default(false)->index();
             $table->string('url')->nullable();
             $table->string('wikipedia')->nullable();

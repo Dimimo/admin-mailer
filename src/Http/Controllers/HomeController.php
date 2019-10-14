@@ -8,8 +8,6 @@
 
 namespace Dimimo\AdminMailer\Http\Controllers;
 
-use Dimimo\AdminMailer\Models\MailerCustomerModel;
-
 /**
  * Class HomeController
  *
@@ -19,7 +17,6 @@ class HomeController extends EntryController
 {
     public function index()
     {
-        $users = MailerCustomerModel::all();
-        return view('admin-mailer::index', compact('users'));
+        return view('admin-mailer::index');
     }
 }

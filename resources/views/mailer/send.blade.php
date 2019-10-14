@@ -25,17 +25,18 @@
                     This is it.<br>
                     Send this email to {{ count($customers) }} customers.
                 </h3>
-                @if (count($customers) !== $already_send)
+                @if ($already_send !== 0 || count($customers) !== $already_send)
                     <h6>
                         <i>{{ $already_send }} customers already received the email but the process got interrupted.<br>
                             The remaining customers will be receiving this email in this new attempt.</i>
                     </h6>
                 @endif
-                <h4>After sending, just relax, enjoy the show and <span class="red">DON'T refresh the page</span></h4>
-                <h5>
-                    If this process was interrupted before, it could be the process goes very fast at first. It also
-                    means that the emails has been send out already. Until the process slows down again.
-                </h5>
+                <h6>
+                    If this process was interrupted, it will ignore the users that already have received the
+                    email. You'll see customers who have unsubscribed. This was necessary for statistical reasons.
+                    Of course they don't get an email. A bogus log entry is created instead.
+                </h6>
+                <h4>After sending, just relax, enjoy the show.</h4>
                 <div class="box-rounded-info my-5 align-left">
                     <strong>Title:</strong> {{ $email->title }}
                     <div class="pt-2"><strong>Message:</strong><br>
@@ -60,6 +61,11 @@
                         <span id="counter_display">{{ count($customers) }}</span>
                     </strong> emails ... progress follows ...
                 </h5>
+                <div class="progress m-3" style="height: 20px;">
+                    <div class="progress-bar progress-bar-animated" role="progressbar" aria-valuenow="0"
+                         aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
+                    </div>
+                </div>
                 <ol id="ol_list" class="list-group"></ol>
             </div>
         </div>
@@ -78,6 +84,7 @@
         const token = $('meta[name="csrf-token"]').attr('content');
         const button = $('button#start_sending');
         let $counter = 0;
+        let $progress = 0;
         button.on('click', function (e) {
             e.preventDefault();
             button
@@ -96,6 +103,7 @@
                 $('#ol_title').addClass('dark-green')
                     .html('<span class="fas fa-check-circle green"></span> All emails has been send!');
                 button.text('... sending emails DONE ...');
+                $('.progress-bar').addClass('bg-success');
                 return;
             }
             let $id = $customers.shift();
@@ -138,7 +146,8 @@
                         return parseInt($(this).attr('id')) < ($counter - 10) && $(this).hasClass('bg-light') === false;
                     }).remove();
                     $('span#counter_display').text($customers.length);
-
+                    $progress = Math.floor($counter / $total * 100);
+                    $('.progress-bar').css('width', $progress + '%').attr('aria-valuenow', $progress).text($progress + '%');
                     ajaxRecursive();
                 }
             });
