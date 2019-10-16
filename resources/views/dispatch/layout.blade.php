@@ -24,7 +24,7 @@
         }
 
         body .inner-text {
-            font-size: 14px;
+            font-size: 16px;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #333333;
             line-height: 1.5;
@@ -193,15 +193,32 @@
                                 <td width="314" class="drop">
                                     <table border="0" cellspacing="0" cellpadding="0" align="center">
                                         <tr>
-                                            <td style="vertical-align: middle; padding: 8px 8px 8px 8px">
+                                            <td style="vertical-align: middle; padding: 8px" title="Contact Email">
                                                 <a href="mailto:contact@puertoparrot.com"><img
                                                             src="http://www.puertoparrot.com/img/social_icon_mail_white_alpha_2x.png"
                                                             width="32" height="32" alt="mail" border="0"/></a>
                                             </td>
-                                            <td style="vertical-align: middle; padding: 8px 8px 8px 8px">
-                                                <a href="https://www.facebook.com/puertoparrot" target="_blank"><img
-                                                            src="http://www.puertoparrot.com/img/social_icon_facebook_white_alpha_2x.png"
-                                                            width="32" height="32" alt="Facebook" border="0"/></a>
+                                            <td style="vertical-align: middle; padding: 8px" title="Privacy">
+                                                <a href="{{ route('home.privacy') }}"><img
+                                                            src="http://www.puertoparrot.com/img/social_icon_key_alpha_2x.png"
+                                                            width="32" height="32" alt="Privacy" border="0"/></a>
+                                            </td>
+                                            <td style="vertical-align: middle; padding: 8px" title="About us">
+                                                <a href="{{ route('home.about') }}"><img
+                                                            src="http://www.puertoparrot.com/img/social_icon_question_alpha_2x.png"
+                                                            width="32" height="32" alt="About us" border="0"/></a>
+                                            </td>
+                                            <td style="vertical-align: middle; padding: 8px"
+                                                title="Terms and Conditions">
+                                                <a href="{{ route('home.terms') }}{{ route('home.terms') }}"><img
+                                                            src="http://www.puertoparrot.com/img/social_icon_exclamation_alpha_2x.png"
+                                                            width="32" height="32" alt="Terms and conditions"
+                                                            border="0"/></a>
+                                            </td>
+                                            <td style="vertical-align: middle; padding: 8px" title="Copyright notice">
+                                                <a href="{{ route('home.copyright') }}{{ route('home.copyright') }}"><img
+                                                            src="http://www.puertoparrot.com/img/social_icon_copyright_alpha_2x.png"
+                                                            width="32" height="32" alt="Copyright" border="0"/></a>
                                             </td>
                                         </tr>
                                     </table>
@@ -217,10 +234,11 @@
         <td align="center" valign="top" style="background: #e5e5e5; padding: 30px 16px" class="footer">
             <table cellspacing="0" cellpadding="0" border="0" width="628" class="container" align="center">
                 <tr>
-                    <td style="font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.1rem; padding: 0 0 8px 0; margin: 0; text-align: center">
+                    <td style="font-size: 15px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.1rem; padding: 0 0 8px 0; margin: 0; text-align: center">
                         This is a message by <a href="https://www.puertoparrot.com"
                                                 style="font-weight: bold;color:#333333; text-decoration: none;"
-                                                target="_blank">Puerto Parrot</a><br>
+                                                target="_blank">Puerto Parrot Social Services</a><br>
+                        We have found your email at social media or Google services<br>
                         You may unsubscribe at any time by <a
                                 href="{{ route($prefix . 'unsubscribe', ['u' => $customer->uuid]) }}">clicking this
                             link</a><br>
@@ -229,13 +247,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333333; line-height: 1.5; padding: 0 0 8px 0; margin: 0; text-align: center">
-                        Puerto Parrot | &copy; {{ date("Y") }} -
-                        <a href="{{ route('home.copyright') }}"
-                           style="font-weight:bold; color:#333333; text-decoration:none;">Terms & Conditions</a> -
-                        <a href="{{ route('home.terms') }}"
-                           style="font-weight:bold; color:#333333; text-decoration:none;">Privacy Policy</a> -
-                        <a href="{{ route('home.about') }}"
-                           style="font-weight:bold; color:#333333; text-decoration:none;">About us</a>
+                        PuertoParrot.com | &copy; {{ date("Y") }}
                     </td>
                 </tr>
             </table>

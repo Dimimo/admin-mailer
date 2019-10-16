@@ -51,7 +51,7 @@ trait AuthorizesRequests
         return (static::$authUsing ?: function ()
         {
             return app()->environment('local') ||
-                \Auth::user()->isAdmin();;
+                \Auth::user()->isAdmin();
         })($request);
     }
 }

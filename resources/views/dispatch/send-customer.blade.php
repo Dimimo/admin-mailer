@@ -2,6 +2,5 @@
 
 @section('content')
 
-    @include('admin-mailer::header')
     {!! $email->body !!}
 @endsection

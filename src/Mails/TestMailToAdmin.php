@@ -61,7 +61,7 @@ class TestMailToAdmin extends Mailable
         $this->email = $email;
         $this->log = $log;
         $this->customer = new Customer(['uuid' => Str::uuid()->getHex()]);
-        $this->title = "Admin test : " . $this->email->title;
+        $this->title = $this->email->title;
     }
 
     /**

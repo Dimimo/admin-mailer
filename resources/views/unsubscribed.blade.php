@@ -2,8 +2,6 @@
 
 @section('content')
 
-    @include('admin-mailer::header')
-
     <div class="jumbotron align-center">
         <h4 class="display-4">Your are unsubscribed</h4>
         <p class="lead">
@@ -18,7 +16,7 @@
             <a class="call-modal" href="#" data-modal-size="modal-lg"
                data-modal-url="/ajax/modal_factory/home.modals.sites_modal">business</a> and/or
             <a class="call-modal" href="#" data-modal-size="modal-lg"
-               data-modal-url="/ajax/modal_factory/home.modals.city-services_modal">city service</a>for free.</p>
+               data-modal-url="/ajax/modal_factory/home.modals.city-services_modal">city service</a> for free.</p>
         <div class="d-flex justify-content-center">
             <div class="px-5">
                 <a class="btn btn-primary btn-lg" href="{{ route('user.register') }}" role="button">Register</a>
