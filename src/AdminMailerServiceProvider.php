@@ -37,7 +37,7 @@ class AdminMailerServiceProvider extends AdminMailerApplicationServiceProvider
         {
             $this->bootForConsole();
         }
-        view()->share('prefix', config('admin-mailer.prefix') . '.');
+        \View::share('prefix', config('admin-mailer.prefix') . '.');
     }
 
     /**

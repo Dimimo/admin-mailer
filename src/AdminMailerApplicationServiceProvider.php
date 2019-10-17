@@ -8,6 +8,7 @@
 
 namespace Dimimo\AdminMailer;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,7 +33,7 @@ class AdminMailerApplicationServiceProvider extends ServiceProvider
     {
         $this->gate();
 
-        AdminMailer::auth(function ($request)
+        AdminMailer::auth(function (Request $request)
         {
             return app()->environment('local') ||
                 Gate::check('admin-mailer', [$request->user()]);

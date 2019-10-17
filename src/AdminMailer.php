@@ -16,7 +16,5 @@ namespace Dimimo\AdminMailer;
  */
 class AdminMailer
 {
-    use AuthorizesRequests, EmailReplacements;
-
-
+    use AuthorizesRequests;
 }
