@@ -8,7 +8,7 @@
 
 namespace Dimimo\AdminMailer\Listeners;
 
-use Dimimo\AdminMailer\AdminMailer;
+use Dimimo\AdminMailer\EmailReplacements;
 use Dimimo\AdminMailer\Events\SendMail;
 use Dimimo\AdminMailer\Mails\MailToCustomer;
 use Dimimo\AdminMailer\Models\MailerLogModel as Log;
@@ -22,6 +22,7 @@ use Mail;
  */
 class SendCustomerMail
 {
+    use EmailReplacements;
     /**
      * @var Log $log
      */
@@ -45,7 +46,7 @@ class SendCustomerMail
      */
     public function handle(SendMail $event)
     {
-        $event = AdminMailer::transformEmail($event);
+        $event = $this::transformEmail($event);
         $this->newLogEntry($event);
         if (App()->environment() === 'production')
         {

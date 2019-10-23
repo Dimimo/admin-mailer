@@ -79,7 +79,7 @@ class CampaignController extends EntryController
     {
         $campaign = Campaign::with(['lists', 'emails'])->withCount(['emails', 'lists'])->findOrFail($id);
 
-        return view('admin-mailer::campaigns.show', compact('campaign', 'selectLists'));
+        return view('admin-mailer::campaigns.show', compact('campaign'));
     }
 
     /**
