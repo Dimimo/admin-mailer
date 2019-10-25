@@ -8,6 +8,8 @@
 
 namespace Dimimo\AdminMailer\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * Dimimo\AdminMailer\Models\LaratablesCustomers
  *
@@ -31,42 +33,56 @@ namespace Dimimo\AdminMailer\Models;
  * @property \Illuminate\Support\Carbon|null                                                           $updated_at
  * @property \Illuminate\Support\Carbon|null                                                           $deleted_at
  * @property-read \App\Models\City|null                                                                $city
- * @property-read \Dimimo\AdminMailer\Models\MailerListModel|null                                      $list
- * @property-read \Illuminate\Database\Eloquent\Collection|\Dimimo\AdminMailer\Models\MailerLogModel[] $logs
+ * @property-read MailerListModel|null                                      $list
+ * @property-read \Illuminate\Database\Eloquent\Collection|MailerLogModel[] $logs
  * @property-read int|null                                                                             $logs_count
  * @property-read \App\Models\ServiceCategory|null                                                     $service
  * @property-read \App\Models\Site|null                                                                $site
  * @property-read \App\Models\User|null                                                                $user
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers query()
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereAcceptsMail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereCityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereFacebook($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereMailerListId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereReadsMail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereRealName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereSiteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereUnsubscribedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereUuid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Dimimo\AdminMailer\Models\LaratablesCustomers whereWikipedia($value)
+ * @method static Builder|LaratablesCustomers newModelQuery()
+ * @method static Builder|LaratablesCustomers newQuery()
+ * @method static Builder|LaratablesCustomers query()
+ * @method static Builder|LaratablesCustomers whereAcceptsMail($value)
+ * @method static Builder|LaratablesCustomers whereCityId($value)
+ * @method static Builder|LaratablesCustomers whereCreatedAt($value)
+ * @method static Builder|LaratablesCustomers whereDeletedAt($value)
+ * @method static Builder|LaratablesCustomers whereEmail($value)
+ * @method static Builder|LaratablesCustomers whereFacebook($value)
+ * @method static Builder|LaratablesCustomers whereId($value)
+ * @method static Builder|LaratablesCustomers whereMailerListId($value)
+ * @method static Builder|LaratablesCustomers whereName($value)
+ * @method static Builder|LaratablesCustomers whereReadsMail($value)
+ * @method static Builder|LaratablesCustomers whereRealName($value)
+ * @method static Builder|LaratablesCustomers whereServiceId($value)
+ * @method static Builder|LaratablesCustomers whereSiteId($value)
+ * @method static Builder|LaratablesCustomers whereUnsubscribedAt($value)
+ * @method static Builder|LaratablesCustomers whereUpdatedAt($value)
+ * @method static Builder|LaratablesCustomers whereUrl($value)
+ * @method static Builder|LaratablesCustomers whereUserId($value)
+ * @method static Builder|LaratablesCustomers whereUuid($value)
+ * @method static Builder|LaratablesCustomers whereWikipedia($value)
  * @mixin \Eloquent
  */
 class LaratablesCustomers extends MailerCustomerModel
 {
     //https://github.com/freshbitsweb/laratables
 
-    public static function laratablesQueryConditions($query)
+    public static function laratablesQueryConditions(LaratablesCustomers $query)
     {
+        $query = $query
+            ->selectRaw('
+            mailer_customers.id,
+            mailer_customers.name AS customer_name,
+            mailer_customers.email,
+            mailer_customers.mailer_list_id,
+            mailer_customers.accepts_mail,
+            mailer_customers.reads_mail,
+            mailer_customers.url,
+            mailer_customers.city_id,
+            mailer_customers.deleted_at,
+            cities.name AS city_name')
+            ->with(['city', 'list'])
+            ->join('cities', 'mailer_customers.city_id', '=', 'cities.id');
         if (request('mailer_list_id'))
         {
             return $query->whereIn('mailer_list_id', request('mailer_list_id'));
@@ -82,9 +98,21 @@ class LaratablesCustomers extends MailerCustomerModel
      * @return string
      * @throws \Throwable
      */
-    public static function laratablesName($customer)
+    public static function laratablesCustomerName($customer)
     {
         return view('admin-mailer::customers.includes._name', compact('customer'))->render();
+    }
+
+    /**
+     * Adds the condition for searching the name of the user in the query.
+     *
+     * @param Builder  $query
+     * @param string search term
+     * @return Builder
+     */
+    public static function laratablesSearchCustomerName(Builder $query, $searchValue)
+    {
+        return $query->orWhere('mailer_customers.name', 'like', "%{$searchValue}%");
     }
 
     /**
@@ -98,6 +126,18 @@ class LaratablesCustomers extends MailerCustomerModel
     public static function laratablesEmail($customer)
     {
         return view('admin-mailer::customers.includes._email', compact('customer'))->render();
+    }
+
+    /**
+     * Adds the condition for searching the name of the user in the query.
+     *
+     * @param Builder  $query
+     * @param string search term
+     * @return Builder
+     */
+    public static function laratablesSearchEmail(Builder $query, $searchValue)
+    {
+        return $query->orWhere('mailer_customers.email', 'like', "%{$searchValue}%");
     }
 
     /**
@@ -121,13 +161,27 @@ class LaratablesCustomers extends MailerCustomerModel
      * @return string|null
      * @throws \Throwable
      */
-    public static function laratablesCustomCityName($customer)
+    public static function laratablesCityName(MailerCustomerModel $customer)
     {
-        if ($customer->city)
+        /*if ($customer->city)
         {
             return $customer->city->name;
         }
-        return '';
+        return '';*/
+        return $customer->city->name;
+    }
+
+    /**
+     * Adds the condition for searching the name of the user in the query.
+     *
+     * @param Builder  $query
+     * @param string search term
+     *
+     * @return Builder
+     */
+    public static function laratablesSearchCityName(Builder $query, $searchValue)
+    {
+        return $query->orWhere('cities.name', 'like', "%{$searchValue}%");
     }
 
     /**
@@ -189,7 +243,7 @@ class LaratablesCustomers extends MailerCustomerModel
      */
     public static function laratablesOrderName()
     {
-        return 'name';
+        return 'customer_name';
     }
 
     /**
@@ -199,6 +253,6 @@ class LaratablesCustomers extends MailerCustomerModel
      */
     public static function laratablesAdditionalColumns()
     {
-        return ['city_id'];
+        return ['customer_name', 'city_name'];
     }
 }

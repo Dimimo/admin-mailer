@@ -33,9 +33,9 @@
                     @endif
                 },
                 columns: [
-                    {name: 'name'},
-                    {name: 'email'},
-                    {name: 'city_name', orderable: false, searchable: false},
+                    {name: 'customer_name', orderable: true, searchable: true},
+                    {name: 'email', orderable: true, searchable: true},
+                    {name: 'city_name', orderable: true, searchable: true},
                     {name: 'list.name', orderable: false, searchable: false},
                     {name: 'accepts_mail', searchable: false},
                     {name: 'reads_mail', searchable: false},
