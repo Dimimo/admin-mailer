@@ -1,17 +1,19 @@
-<table id="customers_table" class="table table-hover">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>City</th>
-        <th>List</th>
-        <th title="Accepts mail?"><span class="fas fa-at"></span></th>
-        <th title="Reads mail?"><span class="fas fa-eye"></span></th>
-        <th><span class="fas fa-link" title="Has a known website?"></span></th>
-        <th></th>
-    </tr>
-    </thead>
-</table>
+<div class="table-responsive">
+    <table id="customers_table" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>List</th>
+            <th title="Accepts mail?"><span class="fas fa-at"></span></th>
+            <th title="Reads mail?"><span class="fas fa-eye"></span></th>
+            <th><span class="fas fa-link" title="Has a known website?"></span></th>
+            <th></th>
+        </tr>
+        </thead>
+    </table>
+</div>
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="/vendor/admin-mailer/css/datatables.min.css">

@@ -82,7 +82,7 @@ class LaratablesCustomers extends MailerCustomerModel
             mailer_customers.deleted_at,
             cities.name AS city_name')
             ->with(['city', 'list'])
-            ->join('cities', 'mailer_customers.city_id', '=', 'cities.id');
+            ->leftJoin('cities', 'mailer_customers.city_id', '=', 'cities.id');
         if (request('mailer_list_id'))
         {
             return $query->whereIn('mailer_list_id', request('mailer_list_id'));
@@ -163,12 +163,11 @@ class LaratablesCustomers extends MailerCustomerModel
      */
     public static function laratablesCityName(MailerCustomerModel $customer)
     {
-        /*if ($customer->city)
+        if ($customer->city)
         {
             return $customer->city->name;
         }
-        return '';*/
-        return $customer->city->name;
+        return '---';
     }
 
     /**
