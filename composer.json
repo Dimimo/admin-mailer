@@ -15,19 +15,12 @@
         "admin-mailer"
     ],
     "require": {
-        "php": "^7.1",
-        "illuminate/auth": "^8.0|^9.0",
-        "illuminate/contracts": "^8.0|^9.0",
-        "illuminate/database": "^8.0|^9.0",
-        "illuminate/events": "^8.0|^9.0",
-        "illuminate/filesystem": "^8.0|^9.0",
-        "illuminate/support": "^8.0|^9.0",
-        "illuminate/notifications": "^8.0|^9.0"
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^8.0|^9.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5.8|^9.3.3",
-        "orchestra/testbench": "^v5.0|^v6.0|v7.0",
-        "mockery/mockery": "~1.3.3|^1.4.2"
+        "phpunit/phpunit": "^8.5.8|^9.3",
+        "orchestra/testbench": "^v6.0"
     },
     "autoload": {
         "psr-4": {
