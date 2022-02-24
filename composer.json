@@ -15,12 +15,8 @@
         "admin-mailer"
     ],
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.3|^8.1",
         "laravel/framework": "^8.75|^9.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.5.8|^9.3",
-        "orchestra/testbench": "^v6.0"
     },
     "autoload": {
         "psr-4": {
