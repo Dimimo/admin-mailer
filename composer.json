@@ -15,8 +15,8 @@
         "admin-mailer"
     ],
     "require": {
-        "php": "^7.3|^8.1",
-        "laravel/framework": "^8.75|^9.0"
+        "php": "^8.0",
+        "illuminate/support": "^8.75|^9.0|^10.0"
     },
     "autoload": {
         "psr-4": {
