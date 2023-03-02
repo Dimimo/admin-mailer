@@ -1,10 +1,5 @@
 # admin-mailer
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
-
 This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
 
 ## Installation
@@ -43,15 +38,3 @@ If you discover any security related issues, please email author email instead o
 ## License
 
 license. Please see the [license file](license.md) for more information.
-
-[ico-version]: https://img.shields.io/packagist/v/dimimo/admin-mailer.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/dimimo/admin-mailer.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/dimimo/admin-mailer/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
-
-[link-packagist]: https://packagist.org/packages/dimimo/admin-mailer
-[link-downloads]: https://packagist.org/packages/dimimo/admin-mailer
-[link-travis]: https://travis-ci.org/dimimo/admin-mailer
-[link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/dimimo
-[link-contributors]: ../../contributors
