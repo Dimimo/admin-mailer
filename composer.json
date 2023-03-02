@@ -12,7 +12,8 @@
     "homepage": "https://github.com/Dimimo/admin-mailer",
     "keywords": [
         "Laravel",
-        "admin-mailer"
+        "admin-mailer",
+        "Laravel 9"
     ],
     "require": {
         "php": "^8.0",
