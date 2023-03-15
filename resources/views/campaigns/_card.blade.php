@@ -63,7 +63,7 @@
     </div>
     <div class="card-footer bg-light">
         <span class="text-muted">Maintained by
-            <a href="{{ route('user.profile.show', [$campaign->owner->slug]) }}">{{ $campaign->owner->username }}</a>
+            <a href="{{ route('user.profile.show', [$campaign->owner->slug]) }}">{{ $campaign->owner->name }}</a>
         </span>
         <a href="{{ route($prefix.'campaigns.edit', [$campaign->id]) }}" title="Update this campaign">
             <span class="float-right fas fa-edit green"></span>

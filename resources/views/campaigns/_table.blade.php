@@ -39,7 +39,7 @@
             </td>
             <td>
                 <a href="{{ route('user.profile.show', [$campaign->owner->slug]) }}">
-                    <span class="fas fa-user-cog" title="{{ $campaign->owner->username }}"></span>
+                    <span class="fas fa-user-cog" title="{{ $campaign->owner->name }}"></span>
                 </a>
             </td>
             <td class="align-right">

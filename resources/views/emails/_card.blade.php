@@ -25,7 +25,7 @@
     </div>
     <div class="card-footer bg-light">
         <span class="text-muted">Maintained by
-            <a href="{{ route('user.profile.show', [$email->owner->slug]) }}">{{ $email->owner->username }}</a>
+            <a href="{{ route('user.profile.show', [$email->owner->slug]) }}">{{ $email->owner->name }}</a>
         </span>
         @if ($email->draft)
             <a href="{{ route($prefix.'emails.edit', [$email->id]) }}">

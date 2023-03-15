@@ -42,7 +42,7 @@
                     <h5>Has a known account?</h5>
                     <p class="text-muted">
                         @if ($customer->user_id)
-                            <a href="{{ route('user.profile.show', [$customer->user->slug]) }}">{{ $costumer->user->username }}</a>
+                            <a href="{{ route('user.profile.show', [$customer->user->slug]) }}">{{ $costumer->user->name }}</a>
                         @else
                             No
                         @endif

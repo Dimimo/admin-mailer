@@ -52,10 +52,10 @@ class SendTestMail implements ShouldQueue
 
     private function replacements($event)
     {
-        $search = ['**name**', '**realname**', '**email**',];
-        $replace = [$this->admin->username, $this->admin->name, $this->admin->email];
+        $search              = ['**name**', '**realname**', '**email**',];
+        $replace             = [$this->admin->name, $this->admin->name, $this->admin->email];
         $event->email->title = str_replace($search, $replace, $event->email->title);
-        $event->email->body = str_replace($search, $replace, $event->email->body);
+        $event->email->body  = str_replace($search, $replace, $event->email->body);
 
         return $event;
     }
